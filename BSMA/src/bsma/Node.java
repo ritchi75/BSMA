@@ -22,7 +22,7 @@ public class Node
         {
             throw new SizeException("size is to small");
         }
-        else if(!isPowerOf2(size))
+        else if(!Memory.isPowerOf2(size))
         {
             throw new SizeException(size + " is not a power of 2");
         }
@@ -37,41 +37,14 @@ public class Node
         this.size = size;
         this.parent = parent;
     }
-    
-    /**
-     * returns true if the input number is a power of 2
-     */
-    private boolean isPowerOf2(int x)
-    {
-        if(x < 2)
-        {
-            return false;
-        }
-        while(x != 1)
-        {
-            if(x%2 == 1)
-            {
-                return false;
-            }
-            x = x/2;
-        }
-        return true;
-    }
 
     /**
      * creates children for this node
      */
-    public void procreate() throws SizeException
+    public void procreate(Node a, Node b) 
     {
-        if(size/2 < Memory.MINIMUM_CHUNK_SIZE)
-        {
-            throw new SizeException("tried to create a chunck less than minumum:  " + Memory.MINIMUM_CHUNK_SIZE);
-        }
-        else
-        {
-            leftChild = new Node(this, size/2);
-            rightChild = new Node(this, size/2);
-        }
+        leftChild = a;
+		rightChild = b;
     }
     
     /**
@@ -123,6 +96,13 @@ public class Node
         return parent;
     }
     
+	/**
+	 * returns the size of this chunk
+	 */
+	public int getSize()
+	{
+		return size;
+	}
     /**
      * true if there is nothing saved in this node
      */
