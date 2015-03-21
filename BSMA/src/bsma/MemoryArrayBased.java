@@ -6,17 +6,16 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Memory
+public class MemoryArrayBased
 {
     public static int MEMORY_SIZE;
     public static final int MINIMUM_CHUNK_SIZE = 4;
-    private static ArrayList<Node> leaves;
-    private Node root;
+    private static ArrayList<Chunk> leaves;
     
     /**
      * 
      */
-    public Memory(int size) throws SizeException 
+    public MemoryArrayBased(int size) throws SizeException 
     {
         if(size < MINIMUM_CHUNK_SIZE)
         {
@@ -29,9 +28,8 @@ public class Memory
         else
         {
             MEMORY_SIZE = size;
-            leaves = new ArrayList<Node>();
-            root = new Node(size);
-            leaves.add(root);
+            leaves = new ArrayList<Chunk>();
+            leaves.add(new Chunk(size));
         }
     }
     
@@ -71,10 +69,9 @@ public class Memory
             // TODO why error?
             while(leaves.get(n).getSize() > size)
             {
-                Node parent = leaves.get(n);
-                Node leftChild = new Node(parent, parent.getSize() / 2);
-                Node rightChild = new Node(parent, parent.getSize() / 2);
-                parent.procreate(leftChild, rightChild);
+                Chunk parent = leaves.get(n);
+                Chunk leftChild = new Chunk(parent.getSize() / 2);
+                Chunk rightChild = new Chunk(parent.getSize() / 2);
                 leaves.set(n, leftChild);
                 leaves.add(n+1, rightChild);
             }
@@ -86,7 +83,7 @@ public class Memory
      * @param parent
      * @param data 
      
-    public void delProc(Node parent, String data) {
+    public void delProc(Chunk parent, String data) {
         if (parent.leftChild = null) {
             
         }
@@ -119,7 +116,7 @@ public class Memory
         int largest = 0;
         for(int i = 0; i < leaves.size(); i++)
         {
-            Node n = leaves.get(i);
+            Chunk n = leaves.get(i);
             if(n.isEmpty() && n.getSize() > largest)
             {
                 largest = n.getSize();
@@ -133,7 +130,7 @@ public class Memory
      * returns the size of the smallest chunk that will store a file
      * of the input size
      */
-    private int findSmallestUsableChunkSize(int fileSize)
+    public int findSmallestUsableChunkSize(int fileSize)
     {
         int returnValue = 0;
         for(int i = MINIMUM_CHUNK_SIZE; i <= MEMORY_SIZE && returnValue == 0; i = i * 2)
@@ -155,7 +152,7 @@ public class Memory
     {
         for(int i = 0; i < leaves.size(); i++)
         {
-            Node n = leaves.get(i);
+            Chunk n = leaves.get(i);
             if(n.getSize() == chunkSize && n.isEmpty())
             {
                 return i;
@@ -166,7 +163,7 @@ public class Memory
         int smallest = 0;
         for(int i = 0; i < leaves.size(); i++)
         {
-            Node n = leaves.get(i);
+            Chunk n = leaves.get(i);
             if(n.isEmpty() && n.getSize() < smallestChunkSoFar)
             {
                 smallest = i;
@@ -190,13 +187,16 @@ public class Memory
             int chunk = getChunkOfSize(chunkSize);
             if(leaves.get(chunk).getSize() == chunkSize)
             {
-                leaves.get(chunk).addThing(f);
+                leaves.get(chunk).addFile(f);
             }
             else
             {
                 split(chunk, chunkSize);
-                leaves.get(chunk).addThing(f);
+                leaves.get(chunk).addFile(f);
             }
         }
     }
 }
+
+
+    
