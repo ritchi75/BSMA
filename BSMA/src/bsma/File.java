@@ -1,4 +1,4 @@
- 
+ package bsma;
 
 /**
  * The File class represents files that interact with the Memory class
@@ -35,5 +35,14 @@ public class File
     public int size()
     {
         return size;
+    }
+    
+    /**
+     * get a String representation of the File object 
+     * @return 
+     */
+    @Override
+    public String toString() {
+        return "File Name: " + name + "Size: " + size;
     }
 }

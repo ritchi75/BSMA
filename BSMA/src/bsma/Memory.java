@@ -1,3 +1,5 @@
+package bsma;
+
 import java.util.ArrayList;
 
 /**
@@ -198,5 +200,22 @@ public class Memory
                 leaves.get(chunk).addThing(f);
             }
         }
+    }
+    
+    /**
+     * returns a String representation of Memory in its current state
+     * @return 
+     */
+    @Override
+    public String toString() {
+        String memString = "The current size of the memory system is " + MEMORY_SIZE + "\n";
+        if(leaves.isEmpty()) {
+            memString += "There are currently no files saved in the memory system.";
+        } else {
+            for (Node leaf : leaves) {
+                memString += leaf.toString() + "\n";
+            }
+            }
+        return memString;
     }
 }

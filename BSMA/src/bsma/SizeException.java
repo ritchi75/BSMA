@@ -1,3 +1,5 @@
+package bsma;
+
 public class SizeException
     extends Exception
 {

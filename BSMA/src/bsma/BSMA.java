@@ -26,13 +26,13 @@ public class BSMA {
 	// File object
 	static File file1;
 	
-
+        
 	public static void main(String args[]) throws IOException {
 		System.out.println("Welcome to the Binary Buddy Memory Management System!");
 		System.out.println();
 		System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
 		Integer systemSize = Integer.parseInt(reader.readLine());
-		Memory memory = new Memory(systemSize);
+		Memory memory = new Memory(systemSize); // is this what we are using or are we using MemoryArrayBased?
 		System.out.println();
 		System.out.println("The minimum memory chunk size is " + memory.MINIMUM_CHUNK_SIZE + ".");
 
