@@ -43,6 +43,6 @@ public class File
      */
     @Override
     public String toString() {
-        return "File Name: " + name + "Size: " + size;
+        return "File Name: " + name + " Size: " + size;
     }
 }

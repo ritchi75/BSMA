@@ -27,7 +27,7 @@ public class BSMA {
 	static File file1;
 	
         
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, SizeException {
 		System.out.println("Welcome to the Binary Buddy Memory Management System!");
 		System.out.println();
 		System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
@@ -60,7 +60,7 @@ public class BSMA {
 					Integer fileSize = Integer.parseInt(reader.readLine());
 					file1 = new File(fileName, fileSize);
 					//TODO need a check here to see if there is enough room for the file 
-					// Memory.addFile(parent, file)
+					memory.add(file1);
 					System.out.println("You have successfully saved the file!");
 					break;
 
@@ -73,7 +73,7 @@ public class BSMA {
 					break;
 
 				case "3":
-					//TODO call toString() method of the memory
+					System.out.println(memory.toString());
 					break;
 
 				case "4":
