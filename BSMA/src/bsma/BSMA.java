@@ -67,8 +67,7 @@ public class BSMA {
 				case "2":
 					System.out.println("What is the name of the data you wish to delete?");
 					String dataToDelete = reader.readLine();
-                    //TODO call the method that will search for the necessary data, delete 
-					//it, and merge memory chunks if necessary
+                                        memory.delData(dataToDelete);
 					System.out.println("You have successfully deleted " + dataToDelete + "!");
 					break;
 
