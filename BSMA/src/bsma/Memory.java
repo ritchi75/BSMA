@@ -126,6 +126,49 @@ public class Memory
      * returns the size of the largest avalible chunk. if there
      * are no chunks avalible, returns 0
      */
+    public void delData(File file){
+    	delProc(root,file)
+    }
+   // take file out from the chunk 
+    public void delProc(Node root,File file) {
+      Node parent = root;
+        if (parent.leftChild = null) {
+            
+        }
+        if (parent.rightChild.file.name == file.name) {
+            if (parent.leftChild.file.name == null && parent.rightChild.leftChild == null && parent.leftChild.leftChild == null) {
+                parent.deleteChildren();
+                backtrack(parent);
+            } else {
+                parent.rightChild.file.name = null;
+            }
+        } else if (parent.leftChild.file.name == file.name) {
+            if (parent.rightChild.file.name == null && parent.rightChild.leftChild == null && parent.leftChild.leftChild == null) {
+                parent.deleteChildren();
+                backtrack(parent);
+            }else if(parent.rightChild.file.name == file.name){
+            	parent.rightChild.file == null;
+            } 
+            else if(parent.rightChild.file.name == file.name){
+                parent.leftChild.file = null;
+            }
+
+        } else {
+            delProc(parent.leftChild, file);
+            delProc(parent.rightChild, file);
+        }
+    }
+  
+    public void backtrack(Node position){
+     Node current = position.getParent();
+     if(current.rightChild.file == null&& current.rightChild.leftChild == null
+    	&& current.leftChild.file == null&& current.leftChild.leftChild == null	 ){
+    	 current.delChildren();
+    	 backtrack(current);
+     }else{
+    	 System.out.println("reset done")
+     }
+    }
     private int largestAvailableChunk()
     {
         int largest = 0;
