@@ -1,4 +1,4 @@
-package bsma;
+ 
 /**
  * The Node class represents objects in our "tree" that function as chunks
  * of our Memory object and can contain Data objects or be empty.
@@ -45,10 +45,10 @@ public class Node
     /**
      * Creates children for this Node
      */
-    public void addChildren(Node a, Node b) 
+    public void setChildren(Node a, Node b) 
     {
         leftChild = a;
-	rightChild = b;
+        rightChild = b;
     }
     
     /**
@@ -75,14 +75,14 @@ public class Node
     {
         data = null;
     }
-		
-		/**
-		 * Gets Data object in Node
-		 * @return 
-		 */
-		public Data getData(){
-			return data;
-		}
+    
+    /**
+     * returns the data held in this node
+     */
+    public Data getData()
+    {
+        return data;
+    }
     
     /**
      * Returns left child
@@ -113,7 +113,7 @@ public class Node
     */
     public int getSize()
     {
-	return size;
+    return size;
     }
     
     /**
@@ -152,10 +152,10 @@ public class Node
      */
     @Override
     public String toString() {
-        String nodeString = "Size: " + size;
+        String returnString = "Chunk Size: " + size;
         if(data != null) {
-            nodeString += " " + data.toString();
+            returnString += " " + data.toString();
         }
-        return nodeString;
+        return returnString;
     }
 }

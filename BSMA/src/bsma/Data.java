@@ -1,4 +1,4 @@
- package bsma;
+  
 
 /**
  * The Data Object is added and removed from Memory
@@ -19,11 +19,11 @@ public class Data
         this.name = name;
         this.size = size;
     }
-		
+    
     /**
      * Returns data name
      */
-    public String getName()
+    public String name()
     {
         return name;
     }
@@ -42,6 +42,6 @@ public class Data
      */
     @Override
     public String toString() {
-        return "Data Name: " + name + " Size: " + size;
+        return "Data Name: " + name + " --- File Size: " + size;
     }
 }

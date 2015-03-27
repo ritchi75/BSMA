@@ -1,259 +1,266 @@
-package bsma;
+ 
 
 import java.util.ArrayList;
 
 /**
- * The Memory class represents our Memory object which can have Data added and
- * removed from it. It uses an ArrayList of Nodes which have two children and a
- * parent, save the root, like that of a BinaryTree. This tree expands and
- * retracts depending on what Data objects are added or removed. Buddy system -
- * If two Nodes containing Data are the same size and are next to each other in
- * the ArrayList, and are then both removed, these two empty Nodes will combine.
- *
+ * The Memory class represents our Memory object which can have Data
+ * added and removed from it. It uses an ArrayList of Nodes which have two
+ * children and a parent, save the root, like that of a BinaryTree.
+ * This tree expands and retracts depending on what Data objects are added or
+ * removed.
+ * Buddy system - If two Nodes containing Data are the same size and are next
+ * to each other in the ArrayList, and are then both removed, these two empty
+ * Nodes will combine. 
+ * 
  * @author Ray Heng
  * @author Nathan Leilich
  * @author Greg Richards
  * @author Scott Ritchie
  * @version 2015.03.27
  */
-public class Memory {
-
-    public static int MEMORY_SIZE;
+public class Memory
+{
+   public static int MEMORY_SIZE;
     public static final int MINIMUM_CHUNK_SIZE = 4;
-    private static ArrayList<Node> node_list;
+    private static ArrayList<Node> leaves;
     private Node root;
-
+    
     /**
-     *
+     * 
      */
-    public Memory(int size) throws SizeException {
-        if (size < MINIMUM_CHUNK_SIZE) {
+    public Memory(int size) throws SizeException 
+    {
+        if(size < MINIMUM_CHUNK_SIZE)
+        {
             throw new SizeException("memory too small");
-        } else if (!isPowerOf2(size)) {
+        }
+        else if(!isPowerOf2(size))
+        {
             throw new SizeException("memoy not a power of 2");
-        } else {
+        }
+        else
+        {
             MEMORY_SIZE = size;
-            node_list = new ArrayList<>();
+            leaves = new ArrayList<Node>();
             root = new Node(size);
-            node_list.add(root);
+            leaves.add(root);
         }
     }
-
+    
     /**
      * returns true if the input number is a power of 2
      */
-    public static boolean isPowerOf2(int x) {
-        if (x < 2) {
+    public static boolean isPowerOf2(int x)
+    {
+        if(x < 2)
+        {
             return false;
         }
-        while (x != 1) {
-            if (x % 2 == 1) {
+        while(x != 1)
+        {
+            if(x%2 == 1)
+            {
                 return false;
             }
-            x = x / 2;
+            x = x/2;
         }
         return true;
     }
 
-    /**
-     *
-     * @param n
-     * @param size
+        /**
+     * adds a file to memory
      */
-    private void split(int n, int size) throws SizeException {
-        if (size < MINIMUM_CHUNK_SIZE) {
+    public void addData(Data d) throws SizeException
+    {
+        if(d.size() > largestAvailableChunk())
+        {
+            throw new SizeException("SizeException thrown on add");
+        }
+        else
+        {
+            int chunkSize = findSmallestUsableChunkSize(d.size());
+            int chunk = getChunkOfSize(chunkSize);
+            if(leaves.get(chunk).getSize() == chunkSize)
+            {
+                leaves.get(chunk).addData(d);
+            }
+            else
+            {
+                split(chunk, chunkSize);
+                leaves.get(chunk).addData(d);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param n
+     * @param size 
+     */
+    private void split(int n, int size) throws SizeException
+    {
+        if(size < MINIMUM_CHUNK_SIZE)
+        {
             throw new SizeException("Size exception thrown on split()");
-        } else //do split stuff
+        }
+        else //do split stuff
         {
             // TODO why error?
-            while (node_list.get(n).getSize() > size) {
-                Node parent = node_list.get(n);
+            while(leaves.get(n).getSize() > size)
+            {
+                Node parent = leaves.get(n);
                 Node leftChild = new Node(parent, parent.getSize() / 2);
                 Node rightChild = new Node(parent, parent.getSize() / 2);
-                parent.addChildren(leftChild, rightChild);
-                node_list.set(n, leftChild);
-                node_list.add(n + 1, rightChild);
+                parent.setChildren(leftChild, rightChild);
+                leaves.set(n, leftChild);
+                leaves.add(n+1, rightChild);
             }
         }
     }
-
+    
     /**
-     *
-     * @param parent
-     * @param data * public void delProc(Node parent, String data) { if
-     * (parent.leftChild = null) {
-     *
-     * }
-     * if (parent.rightChild.file.name == data) { if (parent.leftChild.file.name
-     * == null && parent.rightChild.leftChild == null &&
-     * parent.leftChild.leftChild == null) { parent.deleteChildren(); } else {
-     * parent.rightChild.file.name = null; } } else if
-     * (parent.leftChild.file.name == data) { if (parent.rightChild.file.name ==
-     * null && parent.rightChild.leftChild == null && parent.leftChild.leftChild
-     * == null) { parent.deleteChildren(); } else { parent.leftChild.data =
-     * null; }
-     *
-     * } else { delProc(parent.leftChild, data); delProc(parent.rightChild,
-     * data); } }
+     * returns the size of the largest avalible chunk. if there
+     * are no chunks avalible, returns 0
      */
-    /**
-     * returns the size of the largest avalible chunk. if there are no chunks
-     * avalible, returns 0
-     */
-    public void delData(String dataToDelete) {
-        int nodeToDelete = -1; //index of the node we want to delete
-        Node currNode;
-        for (int i = 0; i < node_list.size(); i++) {
-            currNode = node_list.get(i);
-            if (!currNode.isEmpty()) {
-                if (currNode.getData().getName().equals(dataToDelete)) {
-                    nodeToDelete = i;
-                }
-            }
-        }
-        if (nodeToDelete == -1) {
-            System.out.println(dataToDelete + " does not exist!");
-        } else {
-            delete(nodeToDelete);
-        }
-    }
-
-    // take file out from the chunk 
-//    private void delProc(Node root, Data data) {
-//        
-//    }
-//        Node parent = root;
-//        if (parent.getLeftChild() == null) {
-//            System.out.println("nothing there");
-//        } else {
-//        if (parent.getRightChild().getData().getName() == data.name) {
-//            if (parent.getLeftChild().getData().getName() == null && parent.getRightChild().getLeftChild() == null &&
-//										parent.getLeftChild().getLeftChild() == null) {
-//                parent.deleteChildren();
-//                backtrack(parent);
-//        } else if (parent.getLeftChild().getData().name == data.name) {
-//            if (parent.getRightChild().getData().name == null && parent.getRightChild().getLeftChild() == null 
-//										&& parent.getLeftChild().getLeftChild() == null) {
-//                parent.deleteChildren();
-//                backtrack(parent);
-//            if (parent.getRightChild().mergable()==false) {
-//                if(parent.getRightChild().getData()== data){
-//                parent.getRightChild().deleteData();
-//                backtrack(parent);
-//                }
-//            } else if (parent.getLeftChild().mergable()==false) {
-//                if(parent.getRightChild().getData()== data){
-//                parent.getLeftChild().deleteData();
-//                backtrack(parent);
-//                }
-//            } else {
-//                delProc(parent.getLeftChild(), data);
-//                delProc(parent.getRightChild(), data);
-//            }
-//        }
-//    public void backtrack(Node position) {
-//        Node current = position.getParent();
-//        if (current == null) {
-//            System.out.println("error");
-//        } else {
-//            if (current.getRightChild().mergable() && current.getLeftChild().mergable()) {
-//                current.deleteChildren();
-//                backtrack(current);
-//            } else {
-//                System.out.println("reset done");
-//            }
-//        }
-//    }
-    private int largestAvailableChunk() {
+    private int largestAvailableChunk()
+    {
         int largest = 0;
-        for (int i = 0; i < node_list.size(); i++) {
-            Node n = node_list.get(i);
-            if (n.isEmpty() && n.getSize() > largest) {
+        for(int i = 0; i < leaves.size(); i++)
+        {
+            Node n = leaves.get(i);
+            if(n.isEmpty() && n.getSize() > largest)
+            {
                 largest = n.getSize();
             }
         }
-
+        
         return largest;
     }
-
+    
     /**
-     * returns the size of the smallest chunk that will store a data of the
-     * input size
+     * returns the size of the smallest chunk that will store a file
+     * of the input size
      */
-    private int findSmallestUsableChunkSize(int dataSize) {
+    private int findSmallestUsableChunkSize(int fileSize)
+    {
         int returnValue = 0;
-        for (int i = MINIMUM_CHUNK_SIZE; i <= MEMORY_SIZE && returnValue == 0; i = i * 2) {
-            if (i >= dataSize) {
+        for(int i = MINIMUM_CHUNK_SIZE; i <= MEMORY_SIZE && returnValue == 0; i = i * 2)
+        {
+            if(i >= fileSize)
+            {
                 returnValue = i;
             }
         }
         return returnValue;
     }
-
+    
     /**
-     * returns the index location of the first avalible chunck of size "chunk
-     * Size." if there is no chunk of that size avalible, the smallest chunck
-     * avilble will be returned instead
+     * returns the index location of the first avalible chunck
+     * of size "chunk Size."  if there is no chunk of that size
+     * avalible, the smallest chunck avilble will be returned instead
      */
-    private int getChunkOfSize(int chunkSize) {
-        // Get first empty node of chunkSize
-        // Or next largest to split
-        for (int i = 0; i < node_list.size(); i++) {
-            Node n = node_list.get(i);
-            if (n.getSize() == chunkSize && n.isEmpty()) {
-                return i;
-            } else if (n.getSize() > chunkSize && n.isEmpty()) {
+    private int getChunkOfSize(int chunkSize)
+    {
+        for(int i = 0; i < leaves.size(); i++)
+        {
+            Node n = leaves.get(i);
+            if(n.getSize() == chunkSize && n.isEmpty())
+            {
                 return i;
             }
         }
-        // No possible chunks >= dataSize
-        // SizeException will have already been thrown in add()
-        return 0;
+        
+        int smallestChunkSoFar = (largestAvailableChunk() + 1);
+        int smallest = -1;
+        for(int i = 0; i < leaves.size(); i++)
+        {
+            Node n = leaves.get(i);
+            if(n.isEmpty() && n.getSize() < smallestChunkSoFar)
+            {
+                smallest = i;
+                smallestChunkSoFar = n.getSize();
+            }
+        }
+        return smallest;
     }
-
+    
     /**
-     * Adds data of a user-determined size to memory
-     *
-     * @param d Your Data to add
-     * @throws SizeException
+     * deletes data from a spacific memory chunk
      */
-    public void add(Data d) throws SizeException {
-        if (d.size() > largestAvailableChunk()) {
-            throw new SizeException("SizeException thrown on add");
-        } else {
-            // chunkSize contains the size of the chunk in memory to be
-            // assigned to this data
-            int chunkSize = findSmallestUsableChunkSize(d.size());
-            // chunk contains the position in which to ADD, or SPLIT
-            // and then ADD the data
-            int memory_chunk = getChunkOfSize(chunkSize);
-
-            // ADD
-            if (node_list.get(memory_chunk).getSize() == chunkSize) {
-                node_list.get(memory_chunk).addData(d);
-            } // SPLIT and then ADD
-            else {
-                split(memory_chunk, chunkSize);
-                node_list.get(memory_chunk).addData(d);
+    public void deleteData(int index) throws NullPointerException
+    {
+        Node node = leaves.get(index);
+        if(node.isEmpty())
+        {
+            throw new NullPointerException("momory position " + index + " is empty");
+        }
+        else
+        {
+            node.deleteData();
+            try
+            {
+                merge(index);
+            }
+            catch (NullPointerException n)
+            {
+                /*nothing happens.  if a null pointer if caught, we have reached the root*/
             }
         }
     }
-
+    
+    /**
+     * returns the index position of a peice of data specifiec by name
+     */
+    public int getIndex(String name) throws NullPointerException
+    {
+        for(int i = 0; i < leaves.size(); i++)
+        {
+            if(leaves.get(i).getData().name().equals(name))
+            {
+                return i;
+            }
+        }
+        throw new NullPointerException("file name does not exist");
+    }
+    
+    /**
+     * starts at a specified memory and runs up the tree structure merging node
+     */
+    private void merge(int index)
+    {
+        int leftChild = -1;
+        Node parent = leaves.get(index).getParent();
+        while(parent.getLeftChild().mergable() && parent.getRightChild().mergable())
+        {
+            if(parent.getLeftChild().equals(leaves.get(index)))
+            {
+                leftChild = index;
+            }
+            else
+            {
+                leftChild = (index - 1);
+            }
+            leaves.set(leftChild, parent);
+            leaves.remove(leftChild +1 );
+            parent.deleteChildren();
+            parent = parent.getParent();
+        }
+    }
+    
     /**
      * returns a String representation of Memory in its current state
-     *
-     * @return
+     * @return 
      */
     @Override
     public String toString() {
         String memString = "The current size of the memory system is " + MEMORY_SIZE + "\n";
-        if (node_list.isEmpty()) {
+        if(leaves.isEmpty()) {
             memString += "There is currently no data saved in the memory system.";
         } else {
-            for (Node leaf : node_list) {
-                memString += leaf.toString() + "\n";
+            for (int i = 0; i < leaves.size(); i++) {
+                memString += i + ":  " + leaves.get(i).toString() + "\n";
             }
-        }
+            }
         return memString;
     }
 }
