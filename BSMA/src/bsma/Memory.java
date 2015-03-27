@@ -135,30 +135,30 @@ public class Memory
         if (parent.getLeftChild() == null) {
             System.out.println("nothing there");
         }else{
-        if (parent.getRightChild().getData().getName() == data.name) {
-            if (parent.getLeftChild().getData().getName() == null && parent.getRightChild().getLeftChild() == null &&
-										parent.getLeftChild().getLeftChild() == null) {
-                parent.deleteChildren();
-                backtrack(parent);
+//        if (parent.getRightChild().getData().getName() == data.name) {
+//            if (parent.getLeftChild().getData().getName() == null && parent.getRightChild().getLeftChild() == null &&
+//										parent.getLeftChild().getLeftChild() == null) {
+//                parent.deleteChildren();
+//                backtrack(parent);
             
-        } else if (parent.getLeftChild().getData().name == data.name) {
-            if (parent.getRightChild().getData().name == null && parent.getRightChild().getLeftChild() == null 
-										&& parent.getLeftChild().getLeftChild() == null) {
-                parent.deleteChildren();
-                backtrack(parent);
-            }else if(parent.getRightChild().getData().name == data.name){
+//        } else if (parent.getLeftChild().getData().name == data.name) {
+//            if (parent.getRightChild().getData().name == null && parent.getRightChild().getLeftChild() == null 
+//										&& parent.getLeftChild().getLeftChild() == null) {
+//                parent.deleteChildren();
+//                backtrack(parent);
+            if(parent.getRightChild().mergable()){
             	parent.getRightChild().deleteData();
+							backtrack(parent);
             } 
             else if(parent.getRightChild().getData().name == data.name){
                 parent.getLeftChild().deleteData();
-            }
-
+								backtrack(parent);
         } else {
             delProc(parent.getLeftChild(), data);
             delProc(parent.getRightChild(), data);
         }
     }
-				}
+				
 		}
     public void backtrack(Node position){
      Node current = position.getParent();
