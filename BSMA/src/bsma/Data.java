@@ -19,11 +19,11 @@ public class Data
         this.name = name;
         this.size = size;
     }
-    
+		
     /**
      * Returns data name
      */
-    public String name()
+    public String getName()
     {
         return name;
     }

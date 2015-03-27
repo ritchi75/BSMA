@@ -75,6 +75,14 @@ public class Node
     {
         data = null;
     }
+		
+		/**
+		 * Gets Data object in Node
+		 * @return 
+		 */
+		public Data getData(){
+			return data;
+		}
     
     /**
      * Returns left child

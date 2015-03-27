@@ -126,47 +126,48 @@ public class Memory
      * returns the size of the largest avalible chunk. if there
      * are no chunks avalible, returns 0
      */
-    public void delData(File file){
-    	delProc(root,file)
+    public void delData(Data data){
+    	delProc(root,data);
     }
    // take file out from the chunk 
-    public void delProc(Node root,File file) {
+    public void delProc(Node root,Data data) {
       Node parent = root;
-        if (parent.leftChild = null) {
+        if (parent.getLeftChild() == null) {
+            System.out.println("nothing there");
+        }else{
+        if (parent.getRightChild().getData().getName() == data.name) {
+            if (parent.getLeftChild().getData().getName() == null && parent.getRightChild().getLeftChild() == null &&
+										parent.getLeftChild().getLeftChild() == null) {
+                parent.deleteChildren();
+                backtrack(parent);
             
-        }
-        if (parent.rightChild.file.name == file.name) {
-            if (parent.leftChild.file.name == null && parent.rightChild.leftChild == null && parent.leftChild.leftChild == null) {
+        } else if (parent.getLeftChild().getData().name == data.name) {
+            if (parent.getRightChild().getData().name == null && parent.getRightChild().getLeftChild() == null 
+										&& parent.getLeftChild().getLeftChild() == null) {
                 parent.deleteChildren();
                 backtrack(parent);
-            } else {
-                parent.rightChild.file.name = null;
-            }
-        } else if (parent.leftChild.file.name == file.name) {
-            if (parent.rightChild.file.name == null && parent.rightChild.leftChild == null && parent.leftChild.leftChild == null) {
-                parent.deleteChildren();
-                backtrack(parent);
-            }else if(parent.rightChild.file.name == file.name){
-            	parent.rightChild.file == null;
+            }else if(parent.getRightChild().getData().name == data.name){
+            	parent.getRightChild().deleteData();
             } 
-            else if(parent.rightChild.file.name == file.name){
-                parent.leftChild.file = null;
+            else if(parent.getRightChild().getData().name == data.name){
+                parent.getLeftChild().deleteData();
             }
 
         } else {
-            delProc(parent.leftChild, file);
-            delProc(parent.rightChild, file);
+            delProc(parent.getLeftChild(), data);
+            delProc(parent.getRightChild(), data);
         }
     }
-  
+				}
+		}
     public void backtrack(Node position){
      Node current = position.getParent();
-     if(current.rightChild.file == null&& current.rightChild.leftChild == null
-    	&& current.leftChild.file == null&& current.leftChild.leftChild == null	 ){
-    	 current.delChildren();
+     if(current.getRightChild().getData() == null&& current.getRightChild().getLeftChild() == null
+    	&& current.getLeftChild().getData() == null&& current.getLeftChild().getLeftChild() == null	 ){
+    	 current.deleteChildren();
     	 backtrack(current);
      }else{
-    	 System.out.println("reset done")
+    	 System.out.println("reset done");
      }
     }
     private int largestAvailableChunk()
