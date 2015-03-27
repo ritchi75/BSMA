@@ -1,9 +1,13 @@
 package bsma;
 /**
- * Write a description of class Node here.
+ * The Node class represents objects in our "tree" that function as chunks
+ * of our Memory object and can contain Data objects or be empty.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Ray Heng
+ * @author Nathan Leilich
+ * @author Greg Richards
+ * @author Scott Ritchie
+ * @version 2015.03.27
  */
 public class Node
 {
@@ -11,10 +15,10 @@ public class Node
     private Node leftChild;
     private Node rightChild;
     private int size;
-    private File file;
+    private Data data;
 
     /**
-     * constructor for level 0 node
+     * Constructor for root node
      */
     public Node(int size) throws SizeException
     {
@@ -30,7 +34,7 @@ public class Node
         this.size = size;
     }
     /**
-     * standard constructor
+     * Standard constructor
      */
     public Node(Node parent, int size)
     {
@@ -39,41 +43,41 @@ public class Node
     }
 
     /**
-     * creates children for this node
+     * Creates children for this Node
      */
-    public void procreate(Node a, Node b) 
+    public void addChildren(Node a, Node b) 
     {
         leftChild = a;
-		rightChild = b;
+	rightChild = b;
     }
     
     /**
-     * destroys children
+     * Deletes children
      */
-    public void abortion()
+    public void deleteChildren()
     {
         leftChild = null;
         rightChild = null;
     }
     
     /**
-     * adds something to this node
+     * Adds File to this node
      */
-    public void addThing(File thing)
+    public void addData(Data data)
     {
-        file = thing;
+        this.data = data;
     }
     
     /**
-     * deletes the thing that was saved in this noed
+     * Deletes the File that was saved in this node
      */
-    public void deleteThing()
+    public void deleteData()
     {
-        file = null;
+        data = null;
     }
     
     /**
-     * returns left child
+     * Returns left child
      */
     public Node getLeftChild()
     {
@@ -81,7 +85,7 @@ public class Node
     }
     
     /**
-     * returns right child
+     * Returns right child
      */
     public Node getRightChild()
     {
@@ -89,26 +93,27 @@ public class Node
     }
     
     /**
-     * returns parent
+     * Returns parent
      */
     public Node getParent()
     {
         return parent;
     }
     
-	/**
-	 * returns the size of this chunk
-	 */
-	public int getSize()
-	{
-		return size;
-	}
     /**
-     * true if there is nothing saved in this node
+     * returns the size of this node
+    */
+    public int getSize()
+    {
+	return size;
+    }
+    
+    /**
+     * True if there is nothing saved in this node
      */
     public boolean isEmpty()
     {
-        if(file == null)
+        if(data == null)
         {
             return true;
         }
@@ -119,7 +124,7 @@ public class Node
     }
     
     /**
-     * true if this node has no children and is empty
+     * True if this node has no children and is empty
      */
     public boolean mergable()
     {
@@ -140,8 +145,8 @@ public class Node
     @Override
     public String toString() {
         String nodeString = "Size: " + size;
-        if(file != null) {
-            nodeString += " " + file.toString();
+        if(data != null) {
+            nodeString += " " + data.toString();
         }
         return nodeString;
     }

@@ -1,28 +1,27 @@
  package bsma;
 
 /**
- * The File class represents files that interact with the Memory class
- * by being added or deleted
+ * The Data Object is added and removed from Memory
  * 
  * @author Ray Heng
  * @author Nathan Leilich
  * @author Greg Richards
  * @author Scott Ritchie
- * @version 2015.03.20
+ * @version 2015.03.27
  */
-public class File
+public class Data
 {
     public String name;
     public int size;
     
-    public File(String name, int size)
+    public Data(String name, int size)
     {
         this.name = name;
         this.size = size;
     }
     
     /**
-     * returns file name
+     * Returns data name
      */
     public String name()
     {
@@ -30,7 +29,7 @@ public class File
     }
     
     /**
-     * returns file size
+     * Returns data size
      */
     public int size()
     {
@@ -38,11 +37,11 @@ public class File
     }
     
     /**
-     * get a String representation of the File object 
+     * Gets a String representation of the Data object 
      * @return 
      */
     @Override
     public String toString() {
-        return "File Name: " + name + " Size: " + size;
+        return "Data Name: " + name + " Size: " + size;
     }
 }

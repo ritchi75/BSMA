@@ -6,15 +6,15 @@ import java.io.InputStreamReader;
 
 /*
  * Purpose: Operating Systems 
- * Status: Did some TODOs: created Memory constructor, File class, etc.
- * Last update: 03/20/15
+ * Status: Adding works, need Remove
+ * Last update: 03/27/15
  * Submitted: 
  * Comment: 
  * @author Ray Heng
  * @author Nathan Leilich
  * @author Greg Richards
  * @author Scott Ritchie
- * @version: 2015.03.20
+ * @version: 2015.03.27
  * 
  * The BSMA class takes all of the input from the user and uses it to 
  * demonstrate the entire functionality of the binary buddy memory management
@@ -23,8 +23,8 @@ import java.io.InputStreamReader;
 public class BSMA {
 
 	static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	// File object
-	static File file1;
+	// Data object
+	static Data data1;
 	
         
 	public static void main(String args[]) throws IOException, SizeException {
@@ -41,8 +41,8 @@ public class BSMA {
 		do {
 			System.out.println();
 			System.out.println("Select from the following menu:");
-			System.out.println("1. " + "Save file to memory.");
-			System.out.println("2. " + "Delete file from memory.");
+			System.out.println("1. " + "Save data to memory.");
+			System.out.println("2. " + "Delete data from memory.");
 			System.out.println("3. " + "Print current state of memory.");
 			System.out.println("4. " + "Exit program.");
 			System.out.println("Make your menu selection now: ");
@@ -53,23 +53,23 @@ public class BSMA {
 			switch (choice) {
 
 				case "1":
-					//prompt the user for the name of the file they are trying to save and the size of that file
-					System.out.println("What is the name of the file you want to save?");
-					String fileName = reader.readLine();
-					System.out.println("What is the size of " + fileName + "?");
-					Integer fileSize = Integer.parseInt(reader.readLine());
-					file1 = new File(fileName, fileSize);
-					//TODO need a check here to see if there is enough room for the file 
-					memory.add(file1);
-					System.out.println("You have successfully saved the file!");
+					//prompt the user for the name of the data they are trying to save and the size of that data
+					System.out.println("What is the name of the data you want to save?");
+					String dataName = reader.readLine();
+					System.out.println("What is the size of " + dataName + "?");
+					Integer dataSize = Integer.parseInt(reader.readLine());
+					data1 = new Data(dataName, dataSize);
+					//TODO need a check here to see if there is enough room for the data
+					memory.add(data1);
+					System.out.println("You have successfully saved the data!");
 					break;
 
 				case "2":
-					System.out.println("What is the name of the file you wish to delete?");
-					String fileToDelete = reader.readLine();
-                    //TODO call the method that will search for the necessary file, delete 
+					System.out.println("What is the name of the data you wish to delete?");
+					String dataToDelete = reader.readLine();
+                    //TODO call the method that will search for the necessary data, delete 
 					//it, and merge memory chunks if necessary
-					System.out.println("You have successfully deleted " + fileToDelete + "!");
+					System.out.println("You have successfully deleted " + dataToDelete + "!");
 					break;
 
 				case "3":

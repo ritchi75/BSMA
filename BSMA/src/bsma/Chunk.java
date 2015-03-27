@@ -66,4 +66,17 @@ public class Chunk
             return false;
         }
     }
+		
+		/**
+     * get a String representation of the current state of the Node 
+     * @return 
+     */
+    @Override
+    public String toString() {
+        String nodeString = "Size: " + size;
+        if(file != null) {
+            nodeString += " " + file.toString();
+        }
+        return nodeString;
+    }
 }

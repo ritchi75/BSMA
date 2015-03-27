@@ -197,6 +197,22 @@ public class MemoryArrayBased
             }
         }
     }
+		/**
+     * returns a String representation of Memory in its current state
+     * @return 
+     */
+    @Override
+    public String toString() {
+        String memString = "The current size of the memory system is " + MEMORY_SIZE + "\n";
+        if(leaves.isEmpty()) {
+            memString += "There are currently no files saved in the memory system.";
+        } else {
+            for (Chunk leaf : leaves) {
+                memString += leaf.toString() + "\n";
+            }
+            }
+        return memString;
+    }
 }
 
 

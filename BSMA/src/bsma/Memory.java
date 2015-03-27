@@ -3,16 +3,26 @@ package bsma;
 import java.util.ArrayList;
 
 /**
- * Write a description of class Memory here.
+ * The Memory class represents our Memory object which can have Data
+ * added and removed from it. It uses an ArrayList of Nodes which have two
+ * children and a parent, save the root, like that of a BinaryTree.
+ * This tree expands and retracts depending on what Data objects are added or
+ * removed.
+ * Buddy system - If two Nodes containing Data are the same size and are next
+ * to each other in the ArrayList, and are then both removed, these two empty
+ * Nodes will combine. 
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Ray Heng
+ * @author Nathan Leilich
+ * @author Greg Richards
+ * @author Scott Ritchie
+ * @version 2015.03.27
  */
 public class Memory
 {
     public static int MEMORY_SIZE;
     public static final int MINIMUM_CHUNK_SIZE = 4;
-    private static ArrayList<Node> leaves;
+    private static ArrayList<Node> node_list;
     private Node root;
     
     /**
@@ -31,9 +41,9 @@ public class Memory
         else
         {
             MEMORY_SIZE = size;
-            leaves = new ArrayList<Node>();
+            node_list = new ArrayList<>();
             root = new Node(size);
-            leaves.add(root);
+            node_list.add(root);
         }
     }
     
@@ -71,14 +81,14 @@ public class Memory
         else //do split stuff
         {
             // TODO why error?
-            while(leaves.get(n).getSize() > size)
+            while(node_list.get(n).getSize() > size)
             {
-                Node parent = leaves.get(n);
+                Node parent = node_list.get(n);
                 Node leftChild = new Node(parent, parent.getSize() / 2);
                 Node rightChild = new Node(parent, parent.getSize() / 2);
-                parent.procreate(leftChild, rightChild);
-                leaves.set(n, leftChild);
-                leaves.add(n+1, rightChild);
+                parent.addChildren(leftChild, rightChild);
+                node_list.set(n, leftChild);
+                node_list.add(n+1, rightChild);
             }
         }
     }
@@ -119,9 +129,9 @@ public class Memory
     private int largestAvailableChunk()
     {
         int largest = 0;
-        for(int i = 0; i < leaves.size(); i++)
+        for(int i = 0; i < node_list.size(); i++)
         {
-            Node n = leaves.get(i);
+            Node n = node_list.get(i);
             if(n.isEmpty() && n.getSize() > largest)
             {
                 largest = n.getSize();
@@ -132,15 +142,15 @@ public class Memory
     }
     
     /**
-     * returns the size of the smallest chunk that will store a file
+     * returns the size of the smallest chunk that will store a data
      * of the input size
      */
-    private int findSmallestUsableChunkSize(int fileSize)
+    private int findSmallestUsableChunkSize(int dataSize)
     {
         int returnValue = 0;
         for(int i = MINIMUM_CHUNK_SIZE; i <= MEMORY_SIZE && returnValue == 0; i = i * 2)
         {
-            if(i >= fileSize)
+            if(i >= dataSize)
             {
                 returnValue = i;
             }
@@ -155,49 +165,55 @@ public class Memory
      */
     private int getChunkOfSize(int chunkSize)
     {
-        for(int i = 0; i < leaves.size(); i++)
+        // Get first empty node of chunkSize
+        // Or next largest to split
+        for(int i = 0; i < node_list.size(); i++)
         {
-            Node n = leaves.get(i);
+            Node n = node_list.get(i);
             if(n.getSize() == chunkSize && n.isEmpty())
             {
                 return i;
             }
-        }
-        
-        int smallestChunkSoFar = largestAvailableChunk();
-        int smallest = 0;
-        for(int i = 0; i < leaves.size(); i++)
-        {
-            Node n = leaves.get(i);
-            if(n.isEmpty() && n.getSize() < smallestChunkSoFar)
-            {
-                smallest = i;
+            else if(n.getSize() > chunkSize && n.isEmpty()){
+                return i;
             }
         }
-        return smallest;
+        // No possible chunks >= dataSize
+        // SizeException will have already been thrown in add()
+        return 0;
     }
     
+    
     /**
-     * adds a file to memory
+     * Adds data of a user-determined size to memory
+     * @param d    Your Data to add
+     * @throws SizeException 
      */
-    public void add(File f) throws SizeException
+    public void add(Data d) throws SizeException
     {
-        if(f.size() > largestAvailableChunk())
+        if(d.size() > largestAvailableChunk())
         {
             throw new SizeException("SizeException thrown on add");
         }
         else
         {
-            int chunkSize = findSmallestUsableChunkSize(f.size());
-            int chunk = getChunkOfSize(chunkSize);
-            if(leaves.get(chunk).getSize() == chunkSize)
+            // chunkSize contains the size of the chunk in memory to be
+            // assigned to this data
+            int chunkSize = findSmallestUsableChunkSize(d.size());
+            // chunk contains the position in which to ADD, or SPLIT
+            // and then ADD the data
+            int memory_chunk = getChunkOfSize(chunkSize);
+            
+            // ADD
+            if(node_list.get(memory_chunk).getSize() == chunkSize)
             {
-                leaves.get(chunk).addThing(f);
+                node_list.get(memory_chunk).addData(d);
             }
+            // SPLIT and then ADD
             else
             {
-                split(chunk, chunkSize);
-                leaves.get(chunk).addThing(f);
+                split(memory_chunk, chunkSize);
+                node_list.get(memory_chunk).addData(d);
             }
         }
     }
@@ -209,10 +225,10 @@ public class Memory
     @Override
     public String toString() {
         String memString = "The current size of the memory system is " + MEMORY_SIZE + "\n";
-        if(leaves.isEmpty()) {
-            memString += "There are currently no files saved in the memory system.";
+        if(node_list.isEmpty()) {
+            memString += "There is currently no data saved in the memory system.";
         } else {
-            for (Node leaf : leaves) {
+            for (Node leaf : node_list) {
                 memString += leaf.toString() + "\n";
             }
             }
