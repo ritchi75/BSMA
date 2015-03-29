@@ -25,10 +25,7 @@ public class BSMA
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static boolean running = true;
-    // Data object
-    static Data data1;
-    
-        
+
     public static void main(String args[]) throws IOException, SizeException 
     {
         //prints welcom and initilizes momory parameters
@@ -50,7 +47,7 @@ public class BSMA
             System.out.println("1. " + "Save data to memory.");
             System.out.println("2. " + "Delete data from memory.");
             System.out.println("3. " + "Print current state of memory.");
-            System.out.println("4. " + "Exit program.");
+            System.out.println("exit. " + "Exit program.");
             System.out.println("Make your menu selection now: ");
 
             String choice = reader.readLine();
@@ -97,7 +94,7 @@ public class BSMA
                     System.out.println(memory.toString());
                     break;
 
-                case "4":
+                case "exit":
                     running = false;
                     break;
 

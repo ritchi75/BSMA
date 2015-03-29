@@ -175,7 +175,7 @@ public class Memory
         for(int i = 0; i < leaves.size(); i++)
         {
             Node n = leaves.get(i);
-            if(n.isEmpty() && n.getSize() < smallestChunkSoFar)
+            if(n.isEmpty() && n.getSize() < smallestChunkSoFar && n.getSize() > chunkSize)
             {
                 smallest = i;
                 smallestChunkSoFar = n.getSize();
@@ -215,9 +215,16 @@ public class Memory
     {
         for(int i = 0; i < leaves.size(); i++)
         {
-            if(leaves.get(i).getData().name().equals(name))
+            try
             {
-                return i;
+                if(leaves.get(i).getData().name().equals(name))
+                {
+                    return i;
+                }
+            }
+            catch (NullPointerException n)
+            {
+                continue;
             }
         }
         throw new NullPointerException("file name does not exist");
@@ -239,6 +246,7 @@ public class Memory
             else
             {
                 leftChild = (index - 1);
+                index--;
             }
             leaves.set(leftChild, parent);
             leaves.remove(leftChild +1 );
