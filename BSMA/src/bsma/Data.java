@@ -3,13 +3,15 @@ package bsma;
   
 
 /**
- * The Data Object is added and removed from Memory
+ * The Data Object is added and removed from Memory.
+ * On creation it's given a name and size, and it fits in chunks of memory
+ * with a size the next power of 2 greater than itself.
  * 
  * @author Ray Heng
  * @author Nathan Leilich
  * @author Greg Richards
  * @author Scott Ritchie
- * @version 2015.03.27
+ * @version 2015.03.29
  */
 public class Data
 {
@@ -23,24 +25,23 @@ public class Data
     }
     
     /**
-     * Returns data name
+     * @return data name
      */
-    public String name()
+    public String getName()
     {
         return name;
     }
     
     /**
-     * Returns data size
+     * @return data size
      */
-    public int size()
+    public int getSize()
     {
         return size;
     }
     
     /**
-     * Gets a String representation of the Data object 
-     * @return 
+     * @return a String representation of the Data object  
      */
     @Override
     public String toString() {
