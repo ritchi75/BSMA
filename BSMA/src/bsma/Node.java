@@ -1,3 +1,5 @@
+package bsma;
+
  
 /**
  * The Node class represents objects in our "tree" that function as chunks
@@ -147,13 +149,27 @@ public class Node
     }
     
     /**
+     * get the amount of wasted memory in this particular chunk
+     */
+    public int getWasted()
+    {
+        if(!isEmpty()) {
+            return size - getData().size();
+        } else {
+            return 0;
+        }
+    }
+    
+    /**
      * get a String representation of the current state of the Node 
      * @return 
      */
     @Override
     public String toString() {
         String returnString = "Chunk Size: " + size;
-        if(data != null) {
+        if(this.isEmpty()) {
+            returnString = "This chunk is empty!";
+        } else {
             returnString += " " + data.toString();
         }
         return returnString;

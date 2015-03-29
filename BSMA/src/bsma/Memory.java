@@ -1,3 +1,5 @@
+package bsma;
+
  
 
 import java.util.ArrayList;
@@ -253,6 +255,41 @@ public class Memory
             parent.deleteChildren();
             parent = parent.getParent();
         }
+    }
+    
+    /**
+     * get the total amount of wasted memory in the system
+     */
+    public int getTotalWasted() {
+        int wasted = 0;
+        for(Node leaf : leaves) {
+            wasted += leaf.getWasted();
+        }
+        return wasted;
+    }
+    
+    /**
+     * get the total amount of available memory that can be used to save Data
+     */
+    public int getTotalAvailable()
+    {
+        int available = 0;
+        for(Node leaf : leaves) {
+            if(leaf.isEmpty()) {
+                available += leaf.getSize();
+            }
+        }
+        return available;
+    }
+    
+    /**
+     * wipe memory clean
+     */
+    public void clearMemory() {
+        leaves.clear();
+        root.deleteChildren();
+        root.deleteData();
+        leaves.add(root);
     }
     
     /**

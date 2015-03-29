@@ -1,3 +1,5 @@
+package bsma;
+
  
 
 import java.io.BufferedReader;
@@ -34,7 +36,7 @@ public class BSMA
         System.out.println();
         System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
         Integer systemSize = Integer.parseInt(reader.readLine());
-        Memory memory = new Memory(systemSize); // is this what we are using or are we using MemoryArrayBased?
+        Memory memory = new Memory(systemSize); 
         System.out.println();
         System.out.println("The minimum memory chunk size is " + memory.MINIMUM_CHUNK_SIZE + ".");
 
@@ -47,6 +49,9 @@ public class BSMA
             System.out.println("1. " + "Save data to memory.");
             System.out.println("2. " + "Delete data from memory.");
             System.out.println("3. " + "Print current state of memory.");
+            System.out.println("4. " + "Print the amount of wasted and available memory.");
+            System.out.println("5. " + "Clear memory.");
+            System.out.println("6. " + "Reset the system.");
             System.out.println("exit. " + "Exit program.");
             System.out.println("Make your menu selection now: ");
 
@@ -92,6 +97,22 @@ public class BSMA
 
                 case "3":
                     System.out.println(memory.toString());
+                    break;
+                    
+                case "4":
+                    System.out.println("Wasted Memory: " + memory.getTotalWasted());
+                    System.out.println("Available Memory: " + memory.getTotalAvailable());
+                    break;
+                    
+                case "5":
+                    memory.clearMemory();
+                    System.out.println("You have successfully cleared the memory!");
+                    break;
+                    
+                case "6":
+                    System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
+                    systemSize = Integer.parseInt(reader.readLine());
+                    memory = new Memory(systemSize); 
                     break;
 
                 case "exit":
