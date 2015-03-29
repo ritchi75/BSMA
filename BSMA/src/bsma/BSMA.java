@@ -66,7 +66,9 @@ public class BSMA
                     String dataName = readUniqueName(memory);
                     System.out.println("What is the size of " + dataName + "?");
                     int dataSize = readInt();
-                        
+                    if(dataSize <= 0){
+                    	System.out.println("illegal Size!!!!!!");
+                    }else{    
                     try
                     {
                         memory.addData(new Data(dataName, dataSize));
@@ -76,7 +78,7 @@ public class BSMA
                     {
                         System.out.println("There is no room for data of size " + dataSize + "\n");
                     }
-                    
+                    }
                     break;
 
                 case "2":
