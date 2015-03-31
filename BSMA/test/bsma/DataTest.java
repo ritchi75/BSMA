@@ -11,18 +11,26 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
+import org.junit.Rule;
 
 /**
  *
  * @author LENOVO
  */
 public class DataTest {
+	private static Data testData;
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 	
 	public DataTest() {
 	}
 	
 	@BeforeClass
-	public static void setUpClass() {
+	public static void setUpClass() throws SizeException {
+	   
+	    
+	    
 	}
 	
 	@AfterClass
@@ -30,7 +38,8 @@ public class DataTest {
 	}
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws SizeException {
+	     testData = new Data("this is a test", 6);
 	}
 	
 	@After
@@ -42,13 +51,7 @@ public class DataTest {
 	 */
 	@Test
 	public void testGetName() {
-		System.out.println("getName");
-		Data instance = null;
-		String expResult = "";
-		String result = instance.getName();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assert testData.getName().equals("this is a test");
 	}
 
 	/**
@@ -56,13 +59,7 @@ public class DataTest {
 	 */
 	@Test
 	public void testGetSize() {
-		System.out.println("getSize");
-		Data instance = null;
-		int expResult = 0;
-		int result = instance.getSize();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assert testData.getSize() == 6;
 	}
 
 	/**
@@ -70,13 +67,18 @@ public class DataTest {
 	 */
 	@Test
 	public void testToString() {
-		System.out.println("toString");
-		Data instance = null;
-		String expResult = "";
-		String result = instance.toString();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assert testData.toString().equals("Data Name: this is a test --- File Size: 6");
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	public void testMinimumDataSize() throws SizeException
+	{
+	    exception.expect(SizeException.class);
+	    Data testData = new Data("this should fail", 0);
+	    testData = new Data("this should also fail", -7);
 	}
 	
 }
