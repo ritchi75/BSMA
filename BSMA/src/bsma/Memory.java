@@ -70,7 +70,7 @@ public class Memory {
 			throw new SizeException("Data is of size 0 or less.");
 		}
 		if (d.getSize() > largestAvailableChunk()) {
-			throw new SizeException("SizeException thrown on add");
+			throw new SizeException("Data is larger than any possible chunk.");
 		} else {
 			int chunkSize = findSmallestUsableChunkSize(d.getSize());
 			int chunk = getChunkOfSize(chunkSize);

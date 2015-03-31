@@ -11,12 +11,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 /**
  *
  * @author LENOVO
  */
 public class MemoryTest {
+	
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
+	
+	
 	
 	public MemoryTest() {
 	}
@@ -88,40 +95,66 @@ public class MemoryTest {
 	 * Test of addData method, of class Memory.
 	 */
 	@Test
-	public void testAddData() throws Exception {
+	public void testAddData() throws SizeException {
 		System.out.println("addData");
 		
+		// Expect SizeException Throws
+		exception.expect(SizeException.class);
+		
 		// Data size = -1
+		// Throws SizeException
 		Data data = new Data("Test", -1);
 		Memory memory = new Memory(32);
 		memory.addData(data);
 		
 		// Data size = 0
-		Data data1 = new Data("Test", 0);
+		// Throws SizeException
+		Data data1 = new Data("Test1", 0);
 		Memory memory1 = new Memory(32);
 		memory1.addData(data1);
-		
+				
 		// Data size = 1
-		Data data2 = new Data("Test", 1);
+		Data data2 = new Data("Test2", 1);
 		Memory memory2 = new Memory(32);
-		memory1.addData(data2);
+		memory2.addData(data2);
 		
 		// Data size = 4
-		Data data3 = new Data("Test", 4);
+		Data data3 = new Data("Test3", 4);
 		Memory memory3 = new Memory(32);
-		memory1.addData(data3);
+		memory3.addData(data3);
 		
-		// Data size = 
-		Data data4 = new Data("Test", 0);
+		// Data size = 32
+		Data data4 = new Data("Test4", 32);
 		Memory memory4 = new Memory(32);
-		memory1.addData(data4);
+		memory4.addData(data4);
 		
-		// 
-		Data data5 = new Data("Test", 0);
+		// Data size = 33
+		// Throws SizeException
+		Data data5 = new Data("Test5", 33);
 		Memory memory5 = new Memory(32);
-		memory1.addData(data5);
+		memory5.addData(data5);
+		
+		// Data size = 4
+		// Memory size = 30 (Not power of 2 but shouldn't effect method)
+		Data data6 = new Data("Test6", 4);
+		Memory memory6 = new Memory(30);
+		memory6.addData(data6);
 	}
 
+	
+	/**
+	 * Test of split method, of class Memory
+	 */
+	public void testSplit() throws SizeException{
+		System.out.println("addData");
+		
+		// Expect SizeException Throws
+		exception.expect(SizeException.class);
+		
+		Memory memory = new Memory(32);
+		
+	}
+	
 	/**
 	 * Test of deleteData method, of class Memory.
 	 */
