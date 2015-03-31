@@ -5,6 +5,7 @@
  */
 package bsma;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,44 +51,13 @@ public class MemoryTest {
 	@Test
 	public void testIsPowerOf2() throws SizeException {
 		System.out.println("isPowerOf2 \n");
-		int x = 0;
-		
-		Memory memory1 = new Memory(32);
-		Memory memory2 = new Memory(32);
-		Memory memory3 = new Memory(32);
-		Memory memory4 = new Memory(32);
-		Memory memory5 = new Memory(32);
-		Memory memory6 = new Memory(32);
-		
-		memory1.isPowerOf2(-1);
-		boolean expResult = false;
-		boolean result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
-		
-		memory2.isPowerOf2(0);
-		expResult = false;
-		result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
-		
-		memory3.isPowerOf2(1);
-		expResult = false;
-		result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
-		
-		memory4.isPowerOf2(2);
-		expResult = false;
-		result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
-		
-		memory5.isPowerOf2(3);
-		expResult = false;
-		result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
-		
-		memory6.isPowerOf2(4);
-		expResult = false;
-		result = Memory.isPowerOf2(x);
-		assertEquals(expResult, result);
+
+		assert Memory.isPowerOf2(-1) == false;
+		assert Memory.isPowerOf2(0) == false;
+		assert Memory.isPowerOf2(1) == false;
+		assert Memory.isPowerOf2(2) == true;
+		assert Memory.isPowerOf2(303) == false;
+		assert Memory.isPowerOf2(512) == true;
 		
 	}
 
@@ -145,13 +115,42 @@ public class MemoryTest {
 	/**
 	 * Test of split method, of class Memory
 	 */
+	@Test
 	public void testSplit() throws SizeException{
-		System.out.println("addData");
+		System.out.println("split");
 		
 		// Expect SizeException Throws
-		exception.expect(SizeException.class);
+		// exception.expect(SizeException.class);
 		
+		// Adds Data of size 4 to Memory of size 32
+		// The result should split the Memory into 4 Nodes of sizes 
+		// 4, 4, 8, and 16
 		Memory memory = new Memory(32);
+		memory.addData(new Data("data", 4));
+		assert(memory.getNode(0).getSize() == 4);
+		assert(memory.getNode(1).getSize() == 4);
+		assert(memory.getNode(2).getSize() == 8);
+		assert(memory.getNode(3).getSize() == 16);
+		
+		// Adds Data of size 8 to Memory of size 32
+		// The result should split the Memory into 3 Nodes of sizes 
+		// 8, 8, and 16
+		Memory memory1 = new Memory(32);
+		memory1.addData(new Data("data", 8));
+		assert(memory1.getNode(0).getSize() == 8);
+		assert(memory1.getNode(1).getSize() == 8);
+		assert(memory1.getNode(2).getSize() == 16);
+		
+		// Adds Data of size 3 to Memory of size 64
+		// The result should split the Memory into 5 Nodes of sizes 
+		// 4, 4, 8, 16 and 32
+		Memory memory2 = new Memory(64);
+		memory2.addData(new Data("data", 3));
+		assert(memory2.getNode(0).getSize() == 4);
+		assert(memory2.getNode(1).getSize() == 4);
+		assert(memory2.getNode(2).getSize() == 8);
+		assert(memory2.getNode(3).getSize() == 16);
+		assert(memory2.getNode(4).getSize() == 32);
 		
 	}
 	

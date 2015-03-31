@@ -259,6 +259,15 @@ public class Memory {
         leaves.add(root);
     }
 
+		/**
+		 * Get a Node from the ArrayList
+		 * @param index where you want to get Node
+		 * @return The Node in that index
+		 */
+		public Node getNode(int index){
+			return leaves.get(index);
+		}
+		
     /**
      * returns a String representation of Memory in its current state
      *
