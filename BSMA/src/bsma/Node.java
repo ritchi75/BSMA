@@ -157,7 +157,7 @@ public class Node {
 	public String toString() {
 		String returnString = "Chunk Size: " + size;
 		if (data == null) {
-			returnString = "  --- empty ---";
+			returnString += "  --- empty ---";
 		} else {
 			returnString += " " + data.toString();
 		}
