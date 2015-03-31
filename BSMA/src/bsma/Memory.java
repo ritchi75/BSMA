@@ -1,4 +1,4 @@
-package bsma;
+ 
 
 import java.util.ArrayList;
 
@@ -28,9 +28,9 @@ public class Memory {
 	 */
 	public Memory(int size) throws SizeException {
 		if (size < MINIMUM_CHUNK_SIZE) {
-			throw new SizeException("memory too small");
+			throw new SizeException("input size too small.\nmust be greater than " + MINIMUM_CHUNK_SIZE);
 		} else if (!isPowerOf2(size)) {
-			throw new SizeException("memoy not a power of 2");
+			throw new SizeException("memory size must be a power of 2");
 		} else {
 			MEMORY_SIZE = size;
 			leaves = new ArrayList<Node>();
@@ -66,21 +66,24 @@ public class Memory {
 	 * @throws SizeException
 	 */
 	public void addData(Data d) throws SizeException {
-		if (d.getSize() <= 0) {
-			throw new SizeException("Data is of size 0 or less.");
-		}
-		if (d.getSize() > largestAvailableChunk()) {
-			throw new SizeException("Data is larger than any possible chunk.");
-		} else {
-			int chunkSize = findSmallestUsableChunkSize(d.getSize());
-			int chunk = getChunkOfSize(chunkSize);
-			if (leaves.get(chunk).getSize() == chunkSize) {
-				leaves.get(chunk).addData(d);
-			} else {
-				split(chunk, chunkSize);
-				leaves.get(chunk).addData(d);
-			}
-		}
+		if(d.getSize() > largestAvailableChunk())
+        {
+            throw new SizeException("not chunks large enough to fit a file of size " + d.getSize());
+        }
+        else
+        {
+            int chunkSize = findSmallestUsableChunkSize(d.getSize());
+            int chunk = getChunkOfSize(chunkSize);
+            if(leaves.get(chunk).getSize() == chunkSize)
+            {
+                leaves.get(chunk).addData(d);
+            }
+            else
+            {
+                split(chunk, chunkSize);
+                leaves.get(chunk).addData(d);
+            }
+        }
 	}
 
 	/**
@@ -90,18 +93,25 @@ public class Memory {
 	 * @param size chunk size you want
 	 */
 	private void split(int n, int size) throws SizeException {
-		if (size < MINIMUM_CHUNK_SIZE) {
-			throw new SizeException("Size exception thrown on split()");
-		} else {
-			while (leaves.get(n).getSize() > size) {
-				Node parent = leaves.get(n);
-				Node leftChild = new Node(parent, parent.getSize() / 2);
-				Node rightChild = new Node(parent, parent.getSize() / 2);
-				parent.setChildren(leftChild, rightChild);
-				leaves.set(n, leftChild);
-				leaves.add(n + 1, rightChild);
-			}
-		}
+		if(size < MINIMUM_CHUNK_SIZE)
+        {
+            throw new SizeException("cannont create a chunck size less thatn " + MINIMUM_CHUNK_SIZE);
+        }
+        else //do split stuff
+        {
+            Node parent = leaves.get(n);
+            Node leftChild = null;
+            Node rightChild = null;
+            while(parent.getSize() > size)
+            {
+                leftChild = new Node(parent, parent.getSize() / 2);
+                rightChild = new Node(parent, parent.getSize() / 2);
+                parent.setChildren(leftChild, rightChild);
+                leaves.add(n+1, rightChild);
+                parent = leftChild;
+            }
+            leaves.set(n, leftChild);
+        }
 	}
 
 	/**
@@ -145,7 +155,6 @@ public class Memory {
 	 * @return
 	 */
 	private int getChunkOfSize(int chunkSize) {
-
 		int smallestChunkSoFar = (largestAvailableChunk() + 1);
 		int smallest = -1;
 		for (int i = 0; i < leaves.size(); i++) {
@@ -197,7 +206,7 @@ public class Memory {
 				continue;
 			}
 		}
-		throw new NullPointerException("file name does not exist");
+		throw new NullPointerException("file does not exist");
 	}
 
 	/**
@@ -207,20 +216,19 @@ public class Memory {
 	 * @param index
 	 */
 	private void merge(int index) {
-		int leftChild = -1;
 		Node parent = leaves.get(index).getParent();
-		while (parent.getLeftChild().mergable() && parent.getRightChild().mergable()) {
-			if (parent.getLeftChild().equals(leaves.get(index))) {
-				leftChild = index;
-			} else {
-				leftChild = (index - 1);
-				index--;
-			}
-			leaves.set(leftChild, parent);
-			leaves.remove(leftChild + 1);
-			parent.deleteChildren();
-			parent = parent.getParent();
-		}
+        while(parent.getLeftChild().mergable() && parent.getRightChild().mergable())
+        {
+
+            if(!(parent.getLeftChild().equals(leaves.get(index))))
+            {
+                index--;
+            }
+            leaves.set(index, parent);
+            leaves.remove(index + 1);
+            parent.deleteChildren();
+            parent = parent.getParent();
+        }
 	}
 
 	/**

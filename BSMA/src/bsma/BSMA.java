@@ -1,4 +1,4 @@
-package bsma;
+ 
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,14 +23,12 @@ public class BSMA {
 
 	public static void main(String args[]) throws IOException, SizeException {
 
-		// Prints welcome and initilizes memory parameters
-		System.out.println("Welcome to the Binary Buddy Memory Management System!");
-		System.out.println();
-		System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
-		Integer systemSize = Integer.parseInt(reader.readLine());
-		Memory memory = new Memory(systemSize);
-		System.out.println();
-		System.out.println("The minimum memory chunk size is " + memory.MINIMUM_CHUNK_SIZE + ".");
+		//prints welcom and initilizes momory parameters
+        
+        System.out.println("Welcome to the Binary Buddy Memory Management System!\n");
+        Memory memory = getNewMemory();
+        System.out.println();
+        System.out.println("The minimum memory chunk size is " + memory.MINIMUM_CHUNK_SIZE + ".");
 
 		do {
 
@@ -44,10 +42,9 @@ public class BSMA {
 			System.out.println("5. " + "Clear memory.");
 			System.out.println("6. " + "Reset the system.");
 			System.out.println("exit. " + "Exit program.");
-			System.out.println("Make your menu selection now: ");
+			System.out.println("Make your menu selection now: \n");
 
 			String choice = reader.readLine();
-			System.out.println();
 
 			switch (choice) {
 
@@ -56,35 +53,38 @@ public class BSMA {
 				 * they'd like to save.
 				 */ 
 				case "1":
-					System.out.println("What is the name of the data you want to save?");
-					String dataName = readUniqueName(memory);
-					System.out.println("What is the size of " + dataName + "?");
-					int dataSize = readInt();
-					if (dataSize <= 0) {
-						System.out.println("illegal Size!!!!!!");
-					} else {
-						try {
-							memory.addData(new Data(dataName, dataSize));
-							System.out.println("You have successfully saved the data!");
-						} catch (SizeException s) {
-							System.out.println("There is no room for data of size " + dataSize + "\n");
-						}
-					}
-					break;
+                    System.out.println("What is the name of the data you want to save?");
+                    String dataName = readUniqueName(memory);
+                    System.out.println("What is the size of " + dataName + "?");
+                    int dataSize = readInt();                      
+                    try
+                    {
+                        memory.addData(new Data(dataName, dataSize));
+                        System.out.println("You have successfully saved the data!");
+                    }
+                    catch(SizeException s)
+                    {
+                        System.out.println(s.getMessage());
+                    }
+                    
+                    break;
 				
 				/**
 				 * Prompt the user for the name of the data they'd like to delete.
 				 */ 
 				case "2":
 					System.out.println("What is the name of the data you wish to delete?");
-					String dataToDelete = reader.readLine();
-
-					try {
-						memory.deleteData(memory.getIndex(dataToDelete));
-						System.out.println("You have successfully deleted " + dataToDelete + "!");
-					} catch (NullPointerException n) {
-						System.out.println("there is no file by that name.");
-					}
+                    String dataToDelete = reader.readLine();
+                    
+                    try
+                    {
+                        memory.deleteData(memory.getIndex(dataToDelete));
+                        System.out.println("You have successfully deleted " + dataToDelete + "!");
+                    } 
+                    catch (NullPointerException n)
+                    {
+                        System.out.println(n.getMessage());
+                    }
 
 					break;
 
@@ -116,9 +116,7 @@ public class BSMA {
 				 * Recreates the Memory object with a size determined by the user.
 				 */ 
 				case "6":
-					System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
-					systemSize = Integer.parseInt(reader.readLine());
-					memory = new Memory(systemSize);
+					memory = getNewMemory();
 					break;
 
 				/**
@@ -185,4 +183,29 @@ public class BSMA {
 		} while (notCorrectInput);
 		return newName;
 	}
+	
+	/**
+     * 
+     */
+    private static Memory getNewMemory() throws IOException
+    {
+        System.out.println("Please enter the amount of memory you would like to allocate for the system (must be a power of 2): ");
+        boolean notCorrectInput = true;
+        Memory memory = null;
+        do
+        {
+            int size = readInt();
+            try
+            {
+                memory = new Memory(size);
+                notCorrectInput = false;
+            }
+            catch (SizeException s)
+            {
+                System.out.println(s.getMessage());
+            }
+        }
+        while (notCorrectInput);
+        return memory;
+    }
 }

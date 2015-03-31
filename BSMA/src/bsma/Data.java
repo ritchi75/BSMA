@@ -1,4 +1,4 @@
-package bsma;
+ 
 
   
 
@@ -15,13 +15,23 @@ package bsma;
  */
 public class Data
 {
-    public String name;
-    public int size;
+    private String name;
+    private int size;
     
-    public Data(String name, int size)
+    /**
+     * constructor for the data class
+     */
+    public Data(String name, int size) throws SizeException
     {
-        this.name = name;
-        this.size = size;
+        if(size > 0)
+        {
+            this.name = name;
+            this.size = size;
+        }
+        else
+        {
+            throw new SizeException("file size must be positive.");
+        }
     }
     
     /**
