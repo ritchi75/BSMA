@@ -41,14 +41,47 @@ public class MemoryTest {
 	 * Test of isPowerOf2 method, of class Memory.
 	 */
 	@Test
-	public void testIsPowerOf2() {
-		System.out.println("isPowerOf2");
+	public void testIsPowerOf2() throws SizeException {
+		System.out.println("isPowerOf2 \n");
 		int x = 0;
+		
+		Memory memory1 = new Memory(32);
+		Memory memory2 = new Memory(32);
+		Memory memory3 = new Memory(32);
+		Memory memory4 = new Memory(32);
+		Memory memory5 = new Memory(32);
+		Memory memory6 = new Memory(32);
+		
+		memory1.isPowerOf2(-1);
 		boolean expResult = false;
 		boolean result = Memory.isPowerOf2(x);
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		
+		memory2.isPowerOf2(0);
+		expResult = false;
+		result = Memory.isPowerOf2(x);
+		assertEquals(expResult, result);
+		
+		memory3.isPowerOf2(1);
+		expResult = false;
+		result = Memory.isPowerOf2(x);
+		assertEquals(expResult, result);
+		
+		memory4.isPowerOf2(2);
+		expResult = false;
+		result = Memory.isPowerOf2(x);
+		assertEquals(expResult, result);
+		
+		memory5.isPowerOf2(3);
+		expResult = false;
+		result = Memory.isPowerOf2(x);
+		assertEquals(expResult, result);
+		
+		memory6.isPowerOf2(4);
+		expResult = false;
+		result = Memory.isPowerOf2(x);
+		assertEquals(expResult, result);
+		
 	}
 
 	/**
@@ -57,11 +90,36 @@ public class MemoryTest {
 	@Test
 	public void testAddData() throws Exception {
 		System.out.println("addData");
-		Data d = null;
-		Memory instance = null;
-		instance.addData(d);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		
+		// Data size = -1
+		Data data = new Data("Test", -1);
+		Memory memory = new Memory(32);
+		memory.addData(data);
+		
+		// Data size = 0
+		Data data1 = new Data("Test", 0);
+		Memory memory1 = new Memory(32);
+		memory1.addData(data1);
+		
+		// Data size = 1
+		Data data2 = new Data("Test", 1);
+		Memory memory2 = new Memory(32);
+		memory1.addData(data2);
+		
+		// Data size = 4
+		Data data3 = new Data("Test", 4);
+		Memory memory3 = new Memory(32);
+		memory1.addData(data3);
+		
+		// Data size = 
+		Data data4 = new Data("Test", 0);
+		Memory memory4 = new Memory(32);
+		memory1.addData(data4);
+		
+		// 
+		Data data5 = new Data("Test", 0);
+		Memory memory5 = new Memory(32);
+		memory1.addData(data5);
 	}
 
 	/**
@@ -73,8 +131,6 @@ public class MemoryTest {
 		int index = 0;
 		Memory instance = null;
 		instance.deleteData(index);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -88,8 +144,6 @@ public class MemoryTest {
 		int expResult = 0;
 		int result = instance.getIndex(name);
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -102,8 +156,6 @@ public class MemoryTest {
 		int expResult = 0;
 		int result = instance.getTotalWasted();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -116,8 +168,6 @@ public class MemoryTest {
 		int expResult = 0;
 		int result = instance.getTotalAvailable();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -128,8 +178,6 @@ public class MemoryTest {
 		System.out.println("clearMemory");
 		Memory instance = null;
 		instance.clearMemory();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -142,8 +190,6 @@ public class MemoryTest {
 		String expResult = "";
 		String result = instance.toString();
 		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 	
 }

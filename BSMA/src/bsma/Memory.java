@@ -40,8 +40,8 @@ public class Memory {
 	}
 
 	/**
-	 * Returns true if number x is a power of 2
-	 * Used to check if Memory is a valid size on creation.
+	 * Returns true if number x is a power of 2 Used to check if Memory is a valid
+	 * size on creation.
 	 *
 	 * @param x
 	 * @return true or false
@@ -66,6 +66,9 @@ public class Memory {
 	 * @throws SizeException
 	 */
 	public void addData(Data d) throws SizeException {
+		if (d.getSize() <= 0) {
+			throw new SizeException("Data is of size 0 or less.");
+		}
 		if (d.getSize() > largestAvailableChunk()) {
 			throw new SizeException("SizeException thrown on add");
 		} else {
