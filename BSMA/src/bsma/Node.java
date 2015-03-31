@@ -1,4 +1,4 @@
- 
+package bsma; 
 
 /**
  * The Node class represents objects in our "tree" that function as chunks of

@@ -1,4 +1,4 @@
- 
+package bsma;
 
 /**
  * This exception is thrown by the Memory, Node, and Data class if 

@@ -1,6 +1,4 @@
- 
-
-  
+package bsma;  
 
 /**
  * The Data Object is added and removed from Memory.
