@@ -1,4 +1,4 @@
-package bsma;
+ 
 
 /**
  * The Node class represents objects in our "tree" that function as chunks of
@@ -24,15 +24,19 @@ public class Node {
 	 * @param size
 	 * @throws SizeException
 	 */
-	public Node(int size) throws SizeException {
-		if (size < Memory.MINIMUM_CHUNK_SIZE) {
-			throw new SizeException("size is to small");
-		} else if (!Memory.isPowerOf2(size)) {
-			throw new SizeException(size + " is not a power of 2");
-		} else {
-			this.size = size;
-		}
-	}
+    public Node(int size) throws SizeException
+    {
+        if(size < Memory.MINIMUM_CHUNK_SIZE) 
+        {
+            throw new SizeException("chunk size is to small");
+        }
+        else if(!Memory.isPowerOf2(size))
+        {
+            throw new SizeException(size + " is not a power of 2");
+        }
+        else
+        this.size = size;
+    }
 
 	/**
 	 * Standard constructor for new Node object
@@ -128,7 +132,7 @@ public class Node {
 	 * @return True if this node has no children and is empty
 	 */
 	public boolean mergable() {
-		if (leftChild == null && isEmpty()) {
+		if (leftChild == null && data == null) {
 			return true;
 		} else {
 			return false;
@@ -152,8 +156,8 @@ public class Node {
 	@Override
 	public String toString() {
 		String returnString = "Chunk Size: " + size;
-		if (this.isEmpty()) {
-			returnString = "This chunk is empty!";
+		if (data == null) {
+			returnString = "  --- empty ---";
 		} else {
 			returnString += " " + data.toString();
 		}

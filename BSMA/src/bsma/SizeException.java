@@ -1,7 +1,8 @@
-package bsma;
+ 
 
 /**
- * Exception thrown when a number input is too small or too large.
+ * This exception is thrown by the Memory, Node, and Data class if 
+ * an invalid memory, memory chunk, or file size is entered.
  */
 public class SizeException
     extends Exception
