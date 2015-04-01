@@ -25,6 +25,8 @@ public class Memory {
 
     /**
      *
+     * @param size
+     * @throws bsma.SizeException
      */
     public Memory(int size) throws SizeException {
         if (size < MINIMUM_CHUNK_SIZE) {
@@ -212,7 +214,7 @@ public class Memory {
      */
     private void merge(int index) {
         Node parent = leaves.get(index).getParent();
-        while (parent.getLeftChild().mergable() && parent.getRightChild().mergable()) {
+        while (parent.getLeftChild().mergeable() && parent.getRightChild().mergeable()) {
 
             if (!(parent.getLeftChild().equals(leaves.get(index)))) {
                 index--;

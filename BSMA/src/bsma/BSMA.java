@@ -1,4 +1,4 @@
-package bsma; 
+package bsma;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,17 +18,21 @@ import java.io.InputStreamReader;
  */
 public class BSMA {
 
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader reader = new BufferedReader(
+            new InputStreamReader(System.in));
     private static boolean running = true;
 
     public static void main(String args[]) throws IOException, SizeException {
 
-        //prints welcom and initilizes momory parameters
-        System.out.println("\n\n______________________________________________________");
-        System.out.println("Welcome to the Binary Buddy Memory Management System!");
+        //prints welcome and initilizes memory parameters
+        System.out.println("\n\n___________________________________________"
+                + "___________");
+        System.out.println("Welcome to the Binary Buddy Memory "
+                + "Management System!");
         Memory memory = getNewMemory();
         System.out.println();
-        System.out.println("The minimum memory chunk size is " + memory.MINIMUM_CHUNK_SIZE + ".");
+        System.out.println("The minimum memory chunk size is "
+                + Memory.MINIMUM_CHUNK_SIZE + ".");
 
         do {
 
@@ -38,7 +42,8 @@ public class BSMA {
             System.out.println("1. " + "Save data to memory.");
             System.out.println("2. " + "Delete data from memory.");
             System.out.println("3. " + "Print current state of memory.");
-            System.out.println("4. " + "Print the amount of wasted and available memory.");
+            System.out.println("4. " + "Print the amount of wasted and "
+                    + "available memory.");
             System.out.println("5. " + "Clear memory.");
             System.out.println("6. " + "Reset the system.");
             System.out.println("exit. " + "Exit program.");
@@ -49,90 +54,96 @@ public class BSMA {
             switch (choice) {
 
                 /**
-                 * Prompt the user for the name and size of the data
-                 * they'd like to save.
-                 */ 
+                 * Prompt the user for the name and size of the data they'd like
+                 * to save.
+                 */
                 case "1":
-                    System.out.println(" --- What is the name of the data you want to save?");
+                    System.out.println(" --- What is the name of the data you "
+                            + "want to save?");
                     String dataName = readUniqueName(memory);
-                    System.out.println(" --- What is the size of " + dataName + "?");
-                    int dataSize = readInt();                      
-                    try
-                    {
+                    System.out.println(" --- What is the size of "
+                            + dataName + "?");
+                    int dataSize = readInt();
+                    try {
                         memory.addData(new Data(dataName, dataSize));
                         System.out.println(" --- " + dataSize + " saved");
+                    } catch (SizeException s) {
+                        System.out.println("\n    ****** ERROR ****** \n"
+                                + s.getMessage() + "\n");
                     }
-                    catch(SizeException s)
-                    {
-                        System.out.println("\n    ****** ERROR ****** \n" + s.getMessage() + "\n");
-                    }
-                    
                     break;
-                
+
                 /**
-                 * Prompt the user for the name of the data they'd like to delete.
-                 */ 
+                 * Prompt the user for the name of the data they'd like to
+                 * delete.
+                 */
                 case "2":
-                    System.out.println(" --- What is the name of the data you wish to delete?");
+                    System.out.println(" --- What is the name of the data you "
+                            + "wish to delete?");
                     String dataToDelete = reader.readLine();
-                    
-                    try
-                    {
-                        memory.deleteData(memory.getIndex(dataToDelete));
-                        System.out.println(" --- You have successfully deleted " + dataToDelete + "!");
-                    } 
-                    catch (NullPointerException n)
-                    {
-                        System.out.println("\n    ****** ERROR ******\n" + n.getMessage() + "\n");
-                    }
 
+                    try {
+                        memory.deleteData(memory.getIndex(dataToDelete));
+                        System.out.println(" --- You have successfully deleted " 
+                                + dataToDelete + "!");
+                    } catch (NullPointerException n) {
+                        System.out.println("\n    ****** ERROR ******\n" 
+                                + n.getMessage() + "\n");
+                    }
                     break;
 
                 /**
-                 * Print out the status of the Memory object. What chunks are available,
-                 * and what chunks contain Data.
-                 */ 
+                 * Print out the status of the Memory object. What chunks are
+                 * available, and what chunks contain Data.
+                 */
                 case "3":
-                    System.out.println("\n--------------------------------------");
+                    System.out.println("\n---------------------------------"
+                            + "-----");
                     System.out.println(memory.toString());
                     break;
 
                 /**
                  * Prints the memory wasted as well as memory available.
-                 */ 
+                 */
                 case "4":
-                    System.out.println("\n--------------------------------------");
-                    System.out.println("Wasted Memory: " + memory.getTotalWasted());
-                    System.out.println("Available Memory: " + memory.getTotalAvailable());
+                    System.out.println("\n---------------------------------"
+                            + "-----");
+                    System.out.println("Wasted Memory: " 
+                            + memory.getTotalWasted());
+                    System.out.println("Available Memory: " 
+                            + memory.getTotalAvailable());
                     break;
 
                 /**
                  * Clears Memory of all Data.
-                 */ 
+                 */
                 case "5":
                     memory.clearMemory();
-                    System.out.println(" --- You have successfully cleared the memory!");
+                    System.out.println(" --- You have successfully cleared "
+                            + "the memory!");
                     break;
 
                 /**
-                 * Recreates the Memory object with a size determined by the user.
-                 */ 
+                 * Recreates the Memory object with a size determined by the
+                 * user.
+                 */
                 case "6":
                     memory = getNewMemory();
                     break;
 
                 /**
                  * Ends program.
-                 */ 
+                 */
                 case "exit":
                     running = false;
                     break;
 
                 /**
                  * Prints that you have chosen a case that doesn't exist.
-                 */ 
+                 */
                 default:
-                    System.out.println("\n     ****** ERROR ******\ninvalid input\n");
+                    System.out.println("\n     ****** ERROR ******\n"
+                            + "invalid input\n");
                     System.out.println();
                     break;
             }
@@ -142,9 +153,9 @@ public class BSMA {
     }
 
     /**
-     * Reads and returns an integer from standard input. This method is compleate
-     * with exception handleing and will not exit intill an integer has been
-     * successfully read from the standard input.
+     * Reads and returns an integer from standard input. This method is
+     * complete with exception handling and will not exit until an integer
+     * has been successfully read from the standard input.
      *
      * @return an integer read from standard input
      */
@@ -156,20 +167,22 @@ public class BSMA {
                 integer = Integer.parseInt(reader.readLine());
                 notCorrect = false;
             } catch (NumberFormatException ex) {
-                System.out.println("\n    ****** ERROR ******" + "\n" + "You must enter interter value." + "\n"
-                                + "try again\n");
+                System.out.println("\n    ****** ERROR ******" + "\n" 
+                        + "You must enter interter value." + "\n" 
+                        + "try again\n");
             }
         } while (notCorrect);
         return integer;
     }
 
     /**
-     * Reads a String from the console and makes sure a Data object of that
-     * name is not already loaded to Memory. If it is, it prompts the user to
-     * give the Data being added a different name.
+     * Reads a String from the console and makes sure a Data object of that name
+     * is not already loaded to Memory. If it is, it prompts the user to give
+     * the Data being added a different name.
+     *
      * @param memory
-     * @return 
-     * @throws IOException 
+     * @return
+     * @throws IOException
      */
     private static String readUniqueName(Memory memory) throws IOException {
         boolean notCorrectInput = true;
@@ -178,37 +191,34 @@ public class BSMA {
             newName = reader.readLine();
             try {
                 memory.getIndex(newName);
-                System.out.println("\n   ****** ERROR ******\nThere is already a data file by that name in memory.  Try again\n");
+                System.out.println("\n   ****** ERROR ******\nThere is already "
+                        + "a data file by that name in memory.  Try again\n");
             } catch (NullPointerException n) {
                 notCorrectInput = false;
             }
         } while (notCorrectInput);
         return newName;
     }
-    
+
     /**
-     * 
+     *
      */
-    private static Memory getNewMemory() throws IOException
-    {
-        System.out.print("Please enter the amount of memory you would like to\nallocate for the system (must be a power of 2):   ");
+    private static Memory getNewMemory() throws IOException {
+        System.out.print("Please enter the amount of memory you would like to\n"
+                + "allocate for the system (must be a power of 2):   ");
         boolean notCorrectInput = true;
         int size = -1;
         Memory memory = null;
-        do
-        {
+        do {
             size = readInt();
-            try
-            {
+            try {
                 memory = new Memory(size);
                 notCorrectInput = false;
+            } catch (SizeException s) {
+                System.out.println("\n   ****** ERROR ******\n" 
+                        + s.getMessage() + "\n");
             }
-            catch (SizeException s)
-            {
-                System.out.println("\n   ****** ERROR ******\n" + s.getMessage() + "\n");
-            }
-        }
-        while (notCorrectInput);
+        } while (notCorrectInput);
         System.out.println(" --- " + size + "\n");
         return memory;
     }

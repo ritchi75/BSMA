@@ -18,6 +18,10 @@ public class Data
     
     /**
      * constructor for the data class
+     * @param name of the data we are creating that will serve as unique id
+     * @param size of the data which will determine what size memory chunk will
+     * be needed to save this particular data
+     * @throws bsma.SizeException
      */
     public Data(String name, int size) throws SizeException
     {
