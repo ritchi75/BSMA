@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bsma;
 
 import java.util.ArrayList;
@@ -16,31 +11,35 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
 /**
- *
- * @author LENOVO
+ * @author Ray Heng
+ * @author Nathan Leilich
+ * @author Greg Richards
+ * @author Scott Ritchie
+ * @version 2015.03.31
  */
 public class MemoryTest {
-	
+
+	private static Memory testMemory;
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
-	
-	
+
 	public MemoryTest() {
 	}
-	
+
 	@BeforeClass
 	public static void setUpClass() {
 	}
-	
+
 	@AfterClass
 	public static void tearDownClass() {
 	}
-	
+
 	@Before
-	public void setUp() {
+	public void setUp() throws SizeException {
+		testMemory = new Memory(32);
 	}
-	
+
 	@After
 	public void tearDown() {
 	}
@@ -50,7 +49,7 @@ public class MemoryTest {
 	 */
 	@Test
 	public void testIsPowerOf2() throws SizeException {
-		System.out.println("isPowerOf2 \n");
+		System.out.println("\n+++++ isPowerOf2 +++++");
 
 		assert Memory.isPowerOf2(-1) == false;
 		assert Memory.isPowerOf2(0) == false;
@@ -58,7 +57,6 @@ public class MemoryTest {
 		assert Memory.isPowerOf2(2) == true;
 		assert Memory.isPowerOf2(303) == false;
 		assert Memory.isPowerOf2(512) == true;
-		
 	}
 
 	/**
@@ -66,162 +64,149 @@ public class MemoryTest {
 	 */
 	@Test
 	public void testAddData() throws SizeException {
-		System.out.println("addData");
-		
-		// Expect SizeException Throws
-		exception.expect(SizeException.class);
-		
-		// Data size = -1
-		// Throws SizeException
-		Data data = new Data("Test", -1);
-		Memory memory = new Memory(32);
-		memory.addData(data);
-		
-		// Data size = 0
-		// Throws SizeException
-		Data data1 = new Data("Test1", 0);
-		Memory memory1 = new Memory(32);
-		memory1.addData(data1);
-				
-		// Data size = 1
-		Data data2 = new Data("Test2", 1);
-		Memory memory2 = new Memory(32);
-		memory2.addData(data2);
-		
-		// Data size = 4
-		Data data3 = new Data("Test3", 4);
-		Memory memory3 = new Memory(32);
-		memory3.addData(data3);
-		
-		// Data size = 32
-		Data data4 = new Data("Test4", 32);
-		Memory memory4 = new Memory(32);
-		memory4.addData(data4);
-		
-		// Data size = 33
-		// Throws SizeException
-		Data data5 = new Data("Test5", 33);
-		Memory memory5 = new Memory(32);
-		memory5.addData(data5);
-		
-		// Data size = 4
-		// Memory size = 30 (Not power of 2 but shouldn't effect method)
-		Data data6 = new Data("Test6", 4);
-		Memory memory6 = new Memory(30);
-		memory6.addData(data6);
+		System.out.println("\n+++++ addData +++++");
+// Expect SizeException Throws
+// Data size = -1
+// Throws SizeException
+		Memory memory = new Memory(64);
+		System.out.println(memory.toString());
+		System.out.println("add data process size 4");
+		memory.addData(new Data("data", 4));
+		System.out.println(memory.toString());
+		System.out.println("add data process size 7");
+		memory.addData(new Data("data1", 7));
+		System.out.println(memory.toString());
+		System.out.println("add data2 process size 19");
+		memory.addData(new Data("data2", 19));
+		System.out.println(memory.toString());
 	}
 
-	
 	/**
 	 * Test of split method, of class Memory
 	 */
 	@Test
-	public void testSplit() throws SizeException{
-		System.out.println("split");
+	public void testSplit() throws SizeException {
+		System.out.println("\n+++++ split +++++");
 		
-		// Expect SizeException Throws
-		// exception.expect(SizeException.class);
-		
-		// Adds Data of size 4 to Memory of size 32
-		// The result should split the Memory into 4 Nodes of sizes 
-		// 4, 4, 8, and 16
+    // Adds Data of size 4 to Memory of size 32
+    // The result should split the Memory into 4 Nodes of sizes 
+    // 4, 4, 8, and 16
 		Memory memory = new Memory(32);
 		memory.addData(new Data("data", 4));
-		assert(memory.getNode(0).getSize() == 4);
-		assert(memory.getNode(1).getSize() == 4);
-		assert(memory.getNode(2).getSize() == 8);
-		assert(memory.getNode(3).getSize() == 16);
-		
-		// Adds Data of size 8 to Memory of size 32
-		// The result should split the Memory into 3 Nodes of sizes 
-		// 8, 8, and 16
+		assert (memory.getNode(0).getSize() == 4);
+		assert (memory.getNode(1).getSize() == 4);
+		assert (memory.getNode(2).getSize() == 8);
+		assert (memory.getNode(3).getSize() == 16);
+		System.out.println(memory.toString());
+    // Adds Data of size 8 to Memory of size 32
+    // The result should split the Memory into 3 Nodes of sizes 
+    // 8, 8, and 16
 		Memory memory1 = new Memory(32);
 		memory1.addData(new Data("data", 8));
-		assert(memory1.getNode(0).getSize() == 8);
-		assert(memory1.getNode(1).getSize() == 8);
-		assert(memory1.getNode(2).getSize() == 16);
-		
-		// Adds Data of size 3 to Memory of size 64
-		// The result should split the Memory into 5 Nodes of sizes 
-		// 4, 4, 8, 16 and 32
+		assert (memory1.getNode(0).getSize() == 8);
+		assert (memory1.getNode(1).getSize() == 8);
+		assert (memory1.getNode(2).getSize() == 16);
+    // Adds Data of size 3 to Memory of size 64
+    // The result should split the Memory into 5 Nodes of sizes 
+    // 4, 4, 8, 16 and 32
 		Memory memory2 = new Memory(64);
 		memory2.addData(new Data("data", 3));
-		assert(memory2.getNode(0).getSize() == 4);
-		assert(memory2.getNode(1).getSize() == 4);
-		assert(memory2.getNode(2).getSize() == 8);
-		assert(memory2.getNode(3).getSize() == 16);
-		assert(memory2.getNode(4).getSize() == 32);
-		
+		assert (memory2.getNode(0).getSize() == 4);
+		assert (memory2.getNode(1).getSize() == 4);
+		assert (memory2.getNode(2).getSize() == 8);
+		assert (memory2.getNode(3).getSize() == 16);
+		assert (memory2.getNode(4).getSize() == 32);
 	}
-	
+
 	/**
 	 * Test of deleteData method, of class Memory.
 	 */
 	@Test
-	public void testDeleteData() {
-		System.out.println("deleteData");
-		int index = 0;
-		Memory instance = null;
-		instance.deleteData(index);
+	public void testDeleteData() throws SizeException {
+		System.out.println("\n+++++ deleteData +++++");
+		Memory memory = new Memory(64);
+		memory.addData(new Data("Test", 17));
+		System.out.println(memory.toString());
+		memory.deleteData(0);
+		System.out.println(memory.toString());
 	}
 
 	/**
 	 * Test of getIndex method, of class Memory.
 	 */
 	@Test
-	public void testGetIndex() {
-		System.out.println("getIndex");
-		String name = "";
-		Memory instance = null;
-		int expResult = 0;
-		int result = instance.getIndex(name);
-		assertEquals(expResult, result);
+	public void testGetIndex() throws SizeException {
+		System.out.println("\n+++++ getIndex +++++");
+		Memory memory = new Memory(64);
+		memory.addData(new Data("data", 3));
+		memory.addData(new Data("data1", 15));
+		memory.addData(new Data("data3", 31));
+		System.out.println(memory.toString());
+
+		assert (memory.getNode(0).getData().getSize() == 3);
+		assert (memory.getNode(1).getData() == null);
+		assert (memory.getNode(3).getData().getName() == "data1");
+		assert (memory.getNode(4).getData().getSize() == 31);
 	}
 
 	/**
 	 * Test of getTotalWasted method, of class Memory.
 	 */
 	@Test
-	public void testGetTotalWasted() {
-		System.out.println("getTotalWasted");
-		Memory instance = null;
-		int expResult = 0;
-		int result = instance.getTotalWasted();
-		assertEquals(expResult, result);
+	public void testGetTotalWasted() throws SizeException {
+		System.out.println("\n+++++ getTotalWasted +++++");
+		Memory memory = new Memory(64);
+		memory.addData(new Data("Test", 17));
+		System.out.println(memory.getTotalWasted());
 	}
 
 	/**
 	 * Test of getTotalAvailable method, of class Memory.
 	 */
 	@Test
-	public void testGetTotalAvailable() {
-		System.out.println("getTotalAvailable");
-		Memory instance = null;
-		int expResult = 0;
-		int result = instance.getTotalAvailable();
-		assertEquals(expResult, result);
+	public void testGetTotalAvailable() throws SizeException {
+		System.out.println("\n+++++ getTotalAvailable +++++");
+		Memory memory = new Memory(64);
+		memory.addData(new Data("Test", 32));
+		System.out.println(memory.getTotalAvailable());
+	}
+
+	/**
+	 * Test of getNode method, of class Memory
+	 */
+	@Test
+	public void testGetNode() throws SizeException {
+		System.out.println("\n+++++ getNode +++++");
+		Memory memory = new Memory(32);
+		assert (memory.getNode(0).getSize() == 32);
 	}
 
 	/**
 	 * Test of clearMemory method, of class Memory.
 	 */
 	@Test
-	public void testClearMemory() {
-		System.out.println("clearMemory");
-		Memory instance = null;
-		instance.clearMemory();
+	public void testClearMemory() throws SizeException {
+		System.out.println("\n+++++ clearMemory +++++");
+		Memory memory = new Memory(64);
+		memory.addData(new Data("data", 3));
+		memory.addData(new Data("data1", 15));
+		memory.addData(new Data("data3", 31));
+		System.out.println(memory.toString());
+		System.out.println("active ClearMemory");
+		memory.clearMemory();
+		System.out.println(memory.toString());
 	}
 
 	/**
 	 * Test of toString method, of class Memory.
 	 */
 	@Test
-	public void testToString() {
-		System.out.println("toString");
-		Memory instance = null;
-		String expResult = "";
-		String result = instance.toString();
-		assertEquals(expResult, result);
+	public void testToString() throws SizeException {
+		System.out.println("\n+++++ toString +++++");
+		exception.expect(SizeException.class);
+		Memory testMemory = new Memory(64);
+		System.out.println(testMemory.toString());
+		testMemory = new Memory(62);
+		System.out.println(testMemory.toString());
 	}
-	
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bsma;
 
 import org.junit.After;
@@ -15,11 +10,16 @@ import org.junit.rules.ExpectedException;
 import org.junit.Rule;
 
 /**
- *
- * @author LENOVO
+ * @author Ray Heng
+ * @author Nathan Leilich
+ * @author Greg Richards
+ * @author Scott Ritchie
+ * @version 2015.03.31
  */
 public class DataTest {
+	
 	private static Data testData;
+	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
