@@ -17,7 +17,7 @@ public class Node {
     private Node rightChild; // the left and right child of any node are buddies
     private int size; // size of this particular chunk of memory(power of 2)
     private Data data; // represents the data that is stored in this chunk
-
+    private int location;
     /**
      * Constructor for root of new tree.
      *
@@ -55,7 +55,9 @@ public class Node {
         leftChild = left;
         rightChild = right;
     }
-
+    public void setLocation(int loca){
+        this.location = loca;
+    }
     /**
      * Deletes both of the Nodes children
      */
