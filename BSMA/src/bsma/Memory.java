@@ -189,14 +189,14 @@ public class Memory {
      * Returns the index position of Data specified by name. This is used to
      * delete said Data from Memory.
      *
-     * @param name
+     * @param Location
      * @return
      * @throws NullPointerException
      */
-    public int getIndex(String name) throws NullPointerException {
+    public int getIndex(int Location) throws NullPointerException {
         for (int i = 0; i < leaves.size(); i++) {
             try {
-                if (leaves.get(i).getData().getName().equals(name)) {
+                if (leaves.get(i).getData().getLocation() == Location) {
                     return i;
                 }
             } catch (NullPointerException n) {

@@ -13,21 +13,21 @@ package bsma;
  */
 public class Data
 {
-    private String name;
+    private int location;
     private int size;
     
     /**
      * constructor for the data class
-     * @param name of the data we are creating that will serve as unique id
+     * @param location of the data we are creating that will serve as unique id
      * @param size of the data which will determine what size memory chunk will
      * be needed to save this particular data
      * @throws bsma.SizeException
      */
-    public Data(String name, int size) throws SizeException
+    public Data(int loca, int size) throws SizeException
     {
         if(size > 0)
         {
-            this.name = name;
+            this.location = loca;
             this.size = size;
         }
         else
@@ -39,9 +39,9 @@ public class Data
     /**
      * @return data name
      */
-    public String getName()
+    public int getLocation()
     {
-        return name;
+        return location;
     }
     
     /**
@@ -57,6 +57,6 @@ public class Data
      */
     @Override
     public String toString() {
-        return "Data Name: " + name + " --- File Size: " + size;
+        return "Data Name: " + location + " --- File Size: " + size;
     }
 }
