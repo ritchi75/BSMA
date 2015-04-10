@@ -60,12 +60,12 @@ public class BSMA {
                 case "1":
                     System.out.println(" --- What is the name of the data you "
                             + "want to save?");
-                    int dataLocation = readUniqueName(memory);
+                    String dataName = readUniqueName(memory);
                     System.out.println(" --- What is the size of "
-                            + dataLocation + "?");
+                            + dataName + "?");
                     int dataSize = readInt();
                     try {
-                        memory.addData(new Data(dataLocation, dataSize));
+                        memory.addData(new Data(dataName, dataSize));
                         System.out.println(" --- " + dataSize + " saved");
                     } catch (SizeException s) {
                         System.out.println("\n    ****** ERROR ****** \n"
@@ -109,7 +109,7 @@ public class BSMA {
                     System.out.println("\n---------------------------------"
                             + "-----");
                     System.out.println("Wasted Memory: " 
-                            + memory.getTotalWasted());
+                            + memory.getTotalWasted());     
                     System.out.println("Available Memory: " 
                             + memory.getTotalAvailable());
                     break;

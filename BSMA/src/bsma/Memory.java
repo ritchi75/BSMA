@@ -193,10 +193,10 @@ public class Memory {
      * @return
      * @throws NullPointerException
      */
-    public int getIndex(int Location) throws NullPointerException {
+    public int getIndex(String name) throws NullPointerException {
         for (int i = 0; i < leaves.size(); i++) {
             try {
-                if (leaves.get(i).getData().getLocation() == Location) {
+                if (leaves.get(i).getData().getName().equals(name)) {
                     return i;
                 }
             } catch (NullPointerException n) {

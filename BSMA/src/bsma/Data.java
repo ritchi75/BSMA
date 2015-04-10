@@ -13,7 +13,7 @@ package bsma;
  */
 public class Data
 {
-    private int location;
+    private String name;
     private int size;
     
     /**
@@ -23,11 +23,11 @@ public class Data
      * be needed to save this particular data
      * @throws bsma.SizeException
      */
-    public Data(int loca, int size) throws SizeException
+    public Data(String name, int size) throws SizeException
     {
         if(size > 0)
         {
-            this.location = loca;
+            this.name = name;
             this.size = size;
         }
         else
@@ -39,9 +39,9 @@ public class Data
     /**
      * @return data name
      */
-    public int getLocation()
+    public String getName()
     {
-        return location;
+        return name;
     }
     
     /**
@@ -57,6 +57,6 @@ public class Data
      */
     @Override
     public String toString() {
-        return "Data Name: " + location + " --- File Size: " + size;
+        return "Data Name: " + name + " --- File Size: " + size;
     }
 }
