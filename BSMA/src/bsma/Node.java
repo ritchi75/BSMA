@@ -40,9 +40,10 @@ public class Node {
      * @param parent Parent Node
      * @param size Size of Node
      */
-    public Node(Node parent, int size) {
+    public Node(Node parent, int size, int locat) {
         this.size = size;
         this.parent = parent;
+        this.location = locat;
     }
 
     /**
@@ -70,13 +71,7 @@ public class Node {
     public int getLocation(){
         return location;
     }
-    /**
-     * 
-     * set a Location for Node 
-     */
-    public void setLocation(int loca){
-        this.location = loca;
-    }
+    
     /**
      * Adds Data to this Node
      *

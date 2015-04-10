@@ -100,8 +100,8 @@ public class Memory {
             Node leftChild = null;
             Node rightChild = null;
             while (parent.getSize() > size) {
-                leftChild = new Node(parent, parent.getSize() / 2);
-                rightChild = new Node(parent, parent.getSize() / 2);
+                leftChild = new Node(parent, parent.getSize() / 2, parent.getLocation());
+                rightChild = new Node(parent, parent.getSize() / 2, parent.getLocation() + parent.getSize());
                 parent.setChildren(leftChild, rightChild);
                 leaves.add(n + 1, rightChild);
                 parent = leftChild;
