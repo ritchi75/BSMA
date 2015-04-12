@@ -3,6 +3,7 @@ package bsma;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Observer;
 
 /*
  * Purpose: Operating Systems 
@@ -60,7 +61,7 @@ public class BSMA {
                 case "1":
                     System.out.println(" --- What is the name of the data you "
                             + "want to save?");
-                    String dataName = readUniqueName(memory);
+                    String dataName = reader.readLine();//readUniqueName(memory);
                     System.out.println(" --- What is the size of "
                             + dataName + "?");
                     int dataSize = readInt();
@@ -78,14 +79,14 @@ public class BSMA {
                  * delete.
                  */
                 case "2":
-                    System.out.println(" --- What is the name of the data you "
-                            + "wish to delete?");
-                    String dataToDelete = reader.readLine();
+                    System.out.println(" --- What location would you like to "
+                            + "delete data from?");
+                    int locationToDelete = Integer.parseInt(reader.readLine());
 
                     try {
-                        memory.deleteData(memory.getIndex(dataToDelete));
-                        System.out.println(" --- You have successfully deleted " 
-                                + dataToDelete + "!");
+                        memory.deleteData(memory.getIndex(locationToDelete));
+                        System.out.println(" --- You have successfully "
+                                + "deleted data from" + locationToDelete + "!");
                     } catch (NullPointerException n) {
                         System.out.println("\n    ****** ERROR ******\n" 
                                 + n.getMessage() + "\n");
@@ -184,21 +185,21 @@ public class BSMA {
      * @return
      * @throws IOException
      */
-    private static String readUniqueName(Memory memory) throws IOException {
-        boolean notCorrectInput = true;
-        String newName = "";
-        do {
-            newName = reader.readLine();
-            try {
-                memory.getIndex(newName);
-                System.out.println("\n   ****** ERROR ******\nThere is already "
-                        + "a data file by that name in memory.  Try again\n");
-            } catch (NullPointerException n) {
-                notCorrectInput = false;
-            }
-        } while (notCorrectInput);
-        return newName;
-    }
+//    private static String readUniqueName(Memory memory) throws IOException {
+//        boolean notCorrectInput = true;
+//        String newName = "";
+//        do {
+//            newName = reader.readLine();
+//            try {
+//                memory.getIndex(newName);
+//                System.out.println("\n   ****** ERROR ******\nThere is already "
+//                        + "a data file by that name in memory.  Try again\n");
+//            } catch (NullPointerException n) {
+//                notCorrectInput = false;
+//            }
+//        } while (notCorrectInput);
+//        return newName;
+//    }
 
     /**
      *

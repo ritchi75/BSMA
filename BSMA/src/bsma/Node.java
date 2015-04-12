@@ -39,6 +39,7 @@ public class Node {
      *
      * @param parent Parent Node
      * @param size Size of Node
+     * @param locat
      */
     public Node(Node parent, int size, int locat) {
         this.size = size;

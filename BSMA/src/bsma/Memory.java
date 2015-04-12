@@ -1,6 +1,10 @@
 package bsma;
 
 import java.util.ArrayList;
+import java.lang.Math;
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * The Memory class represents our Memory object which can have Data added and
@@ -16,12 +20,13 @@ import java.util.ArrayList;
  * @author Scott Ritchie
  * @version 2015.03.29
  */
-public class Memory {
+public class Memory extends Observable{
 
     public static int MEMORY_SIZE;
     public static final int MINIMUM_CHUNK_SIZE = 4;
     private static ArrayList<Node> leaves;
     private Node root;
+    private final ArrayList<Observer> observers = new ArrayList<>();
 
     /**
      *
@@ -37,10 +42,13 @@ public class Memory {
                     + "of 2");
         } else {
             MEMORY_SIZE = size;
-            leaves = new ArrayList<Node>();
+            leaves = new ArrayList<>();
             root = new Node(size);
             leaves.add(root);
         }
+        addObserver((Observer) new BSMAGui());
+        setChanged();
+        notifyObservers(leaves);
     }
 
     /**
@@ -83,6 +91,8 @@ public class Memory {
                 leaves.get(chunk).addData(d);
             }
         }
+        setChanged();
+        notifyObservers(leaves);
     }
 
     /**
@@ -133,14 +143,12 @@ public class Memory {
      * @return
      */
     private int findSmallestUsableChunkSize(int dataSize) {
-        int returnValue = 0;
-        for (int i = MINIMUM_CHUNK_SIZE; i <= MEMORY_SIZE && returnValue
-                == 0; i = i * 2) {
-            if (i >= dataSize) {
-                returnValue = i;
-            }
+        if(dataSize <= 4) {
+            return 4;
+        } else {
+            int power = (int)Math.ceil(Math.log10(dataSize)/Math.log10(2));
+            return (int) Math.pow(2, power);
         }
-        return returnValue;
     }
 
     /**
@@ -173,7 +181,7 @@ public class Memory {
     public void deleteData(int index) throws NullPointerException {
         Node node = leaves.get(index);
         if (node.isEmpty()) {
-            throw new NullPointerException("momory position " + index + " is empty");
+            throw new NullPointerException("memory position " + index + " is empty");
         } else {
             node.deleteData();
             try {
@@ -183,27 +191,28 @@ public class Memory {
                  we have reached the root */
             }
         }
+        setChanged();
+        notifyObservers(leaves);
     }
 
     /**
      * Returns the index position of Data specified by name. This is used to
      * delete said Data from Memory.
      *
-     * @param Location
+     * @param location
      * @return
      * @throws NullPointerException
      */
-    public int getIndex(String name) throws NullPointerException {
+    public int getIndex(int location) throws NullPointerException {
         for (int i = 0; i < leaves.size(); i++) {
             try {
-                if (leaves.get(i).getData().getName().equals(name)) {
+                if (leaves.get(i).getLocation() == location) {
                     return i;
                 }
             } catch (NullPointerException n) {
-                continue;
             }
         }
-        throw new NullPointerException("file does not exist");
+        throw new NullPointerException("not a valid memory location");
     }
 
     /**

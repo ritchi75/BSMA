@@ -5,17 +5,35 @@
  */
 package bsma;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  *
  * @author g_ric_000
  */
-public class BSMAGui extends javax.swing.JFrame {
+public class BSMAGui extends javax.swing.JFrame implements Observer {
 
+    private ArrayList<Node> memoryChunks;
+    private static final int VISUAL_MEMORY_WIDTH = 150; //how wide in pixels the memory will be 
+    private static final int VISUAL_MEMORY_SCALE = 2;
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 600;
+    private static final int START_X = 225;
+    private static final int START_Y = 100;
+    
     /**
      * Creates new form BSMAGui
      */
     public BSMAGui() {
         initComponents();
+        getContentPane().setBackground(Color.white);
+        setVisible(true);
     }
 
     /**
@@ -27,34 +45,17 @@ public class BSMAGui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label1 = new java.awt.Label();
-        canvas1 = new java.awt.Canvas();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        label1.setAlignment(java.awt.Label.CENTER);
-        label1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label1.setText("Binary Buddy Memory Management System");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(canvas1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         pack();
@@ -89,6 +90,7 @@ public class BSMAGui extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new BSMAGui().setVisible(true);
             }
@@ -96,7 +98,34 @@ public class BSMAGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Canvas canvas1;
-    private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        
+        //I have no friggin idea why this won't work
+        Font font;
+        g.setColor(Color.BLACK);
+        font = new Font(Font.SANS_SERIF, Font.BOLD, 45);
+        g.setFont(font);
+        g.drawString("Binary Buddy Memory Management System!", 200, 35);
+        
+        int x = START_X;
+        int y = START_Y;
+        for (Node memoryChunk : memoryChunks) {
+            if(memoryChunk.isEmpty()) {
+                g.setColor(Color.GRAY);
+            } else {
+                g.setColor(Color.RED);
+            }
+            g.fill3DRect(x, y, VISUAL_MEMORY_WIDTH, memoryChunk.getSize() * VISUAL_MEMORY_SCALE, true);
+            y += memoryChunk.getSize() * VISUAL_MEMORY_SCALE;
+        }
+    }
+
+    @Override
+    public void update(Observable observed, Object data) {
+            memoryChunks = (ArrayList<Node>) data;
+            repaint();
+    }
 }
