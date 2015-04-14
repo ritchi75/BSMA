@@ -111,7 +111,7 @@ public class Memory extends Observable{
             Node rightChild = null;
             while (parent.getSize() > size) {
                 leftChild = new Node(parent, parent.getSize() / 2, parent.getLocation());
-                rightChild = new Node(parent, parent.getSize() / 2, parent.getLocation() + parent.getSize());
+                rightChild = new Node(parent, parent.getSize() / 2, parent.getLocation() + parent.getSize() / 2);
                 parent.setChildren(leftChild, rightChild);
                 leaves.add(n + 1, rightChild);
                 parent = leftChild;

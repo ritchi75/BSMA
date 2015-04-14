@@ -151,8 +151,8 @@ public class NodeTest {
     public void testGetParent() throws SizeException {
         System.out.println("getParent");
         testNode = new Node(8);
-        Node left = new Node(testNode, 4);
-        Node right = new Node(testNode, 4);
+        Node left = new Node(testNode, 4,0881);
+        Node right = new Node(testNode, 4,0883);
         testNode.setChildren(left, right);
         Node expectedParent = testNode;
         Node parent = left.getParent();
