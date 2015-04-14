@@ -21,11 +21,9 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
 
     private ArrayList<Node> memoryChunks;
     private static final int VISUAL_MEMORY_WIDTH = 150; //how wide in pixels the memory will be 
-    private static final int VISUAL_MEMORY_SCALE = 2;
-    private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 600;
-    private static final int START_X = 225;
-    private static final int START_Y = 100;
+    private static final int VISUAL_MEMORY_SCALE = 6;
+    private static final int START_X = 120;
+    private static final int START_Y = 150;
     
     /**
      * Creates new form BSMAGui
@@ -46,6 +44,7 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 800));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,15 +102,16 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
     public void paint(Graphics g) {
         super.paint(g);
         
-        //I have no friggin idea why this won't work
         Font font;
         g.setColor(Color.BLACK);
-        font = new Font(Font.SANS_SERIF, Font.BOLD, 45);
+        font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
         g.setFont(font);
-        g.drawString("Binary Buddy Memory Management System!", 200, 35);
+        g.drawString("Binary Buddy Memory Management System!", 120, 100);
         
         int x = START_X;
         int y = START_Y;
+        font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+        g.setFont(font);
         for (Node memoryChunk : memoryChunks) {
             if(memoryChunk.isEmpty()) {
                 g.setColor(Color.GRAY);
@@ -119,6 +119,7 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
                 g.setColor(Color.RED);
             }
             g.fill3DRect(x, y, VISUAL_MEMORY_WIDTH, memoryChunk.getSize() * VISUAL_MEMORY_SCALE, true);
+            g.drawString(memoryChunk.toString(), x + 160, y + (memoryChunk.getSize() * (VISUAL_MEMORY_SCALE/2)));
             y += memoryChunk.getSize() * VISUAL_MEMORY_SCALE;
         }
     }

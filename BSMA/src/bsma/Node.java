@@ -160,8 +160,8 @@ public class Node {
         if (data == null) {
             returnString += "  --- empty ---";
         } else {
-            returnString += " " + data.toString();
+            returnString += " " + data.toString(); 
         }
-        return returnString;
+        return returnString + " Location: " + location;
     }
 }
