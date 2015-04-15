@@ -104,9 +104,22 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
         
         Font font;
         g.setColor(Color.BLACK);
-        font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+        font = new Font(Font.SANS_SERIF, Font.BOLD, 24);
         g.setFont(font);
-        g.drawString("Binary Buddy Memory Management System!", 120, 100);
+        g.drawString("Binary Buddy Memory Management System!", 120, 80);
+   
+        //make a key explaining what different color chunks mean
+        font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+        g.setFont(font);
+        g.setColor(Color.GRAY);
+        g.fill3DRect(START_X + 3, START_Y - 45, 15, 15, true);
+        g.drawString("EMPTY", START_X + 23, START_Y - 33);
+        g.setColor(Color.RED);
+        g.fill3DRect(START_X + 3, START_Y - 25, 15, 15, true);
+        g.drawString("OCCUPIED", START_X + 23, START_Y - 13);
+        //draw a black box around the key
+        g.setColor(Color.BLACK);
+        g.drawRoundRect(START_X, START_Y - 50, 90, 43, 10, 10);
         
         int x = START_X;
         int y = START_Y;
