@@ -1,9 +1,6 @@
-package bsma;
-
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import java.io.*;
+import java.util.Scanner;
 /*
  * Purpose: Operating Systems 
  * @author Ray Heng
@@ -22,13 +19,46 @@ public class BSMA {
             new InputStreamReader(System.in));
     private static boolean running = true;
 
-    public static void main(String args[]) throws IOException, SizeException {
-
-        //prints welcome and initilizes memory parameters
+    public static void main(String args[]) throws IOException, SizeException, InterruptedException {
+        
+        //prints welcome
         System.out.println("\n\n___________________________________________"
                 + "___________");
         System.out.println("Welcome to the Binary Buddy Memory "
                 + "Management System!");
+        do{
+            System.out.println("1. run with manual input");
+            System.out.println("2. run integration plan from file");
+            String choice = reader.readLine();
+            switch (choice) {
+                case "1":  runManualInput();
+                           break;
+                case "2":  runDemo();
+                           break;
+                default:   System.out.println("invalid input");
+                           break;
+            }
+            System.out.println("run again?");
+            System.out.println("1. yes");
+            System.out.println("2. no (exits program)");
+            choice = reader.readLine();
+            switch (choice) {
+                case "1":  //do nothing
+                           break;
+                case "2":  running = false;
+                           break;
+                default:   System.out.println("invalid input");
+                           break;
+            }
+        }while (running);
+        System.out.println("terminating program.");        
+        System.exit(1);
+    }
+    
+    private static void runManualInput() throws IOException, SizeException {
+
+        //initilizes memory parameters
+        boolean runningManual = true;
         Memory memory = getNewMemory();
         System.out.println();
         System.out.println("The minimum memory chunk size is "
@@ -135,7 +165,7 @@ public class BSMA {
                  * Ends program.
                  */
                 case "exit":
-                    running = false;
+                    runningManual = false;
                     break;
 
                 /**
@@ -147,11 +177,99 @@ public class BSMA {
                     System.out.println();
                     break;
             }
-        } while (running);
-        System.out.println("Goodbye.");
-        System.exit(1);
+        } while (runningManual);
     }
+    
+    /**
+     * 
+     */
+    private static void runDemo() throws IOException, SizeException, InterruptedException {
+        Scanner fileReader = new Scanner(new File("demo.txt"));
+        Memory memory = new Memory(Integer.parseInt(fileReader.next()));
+        System.out.println("press enter to continue");
+        
+        //reads any input from the consle before continueing
+        reader.readLine();  
+        while (fileReader.hasNext())
+        {
+            String choice = fileReader.next();
+            System.out.println(" --- " + choice + "\n");
+            switch (choice) {
 
+                /**
+                 * Prompt the user for the name and size of the data they'd like
+                 * to save.
+                 */
+                case "1":
+                    String dataName = fileReader.next();
+                    int dataSize = Integer.parseInt(fileReader.next());
+                    try {
+                        memory.addData(new Data(dataName, dataSize));
+                        System.out.println(" --- " + dataSize + " saved");
+                    } catch (SizeException s) {
+                        System.out.println("\n    ****** ERROR ****** \n"
+                                + s.getMessage() + "\n");
+                    }
+                    break;
+
+                /**
+                 * Prompt the user for the name of the data they'd like to
+                 * delete.
+                 */
+                case "2":
+                    int locationToDelete = Integer.parseInt(fileReader.next());
+
+                    try {
+                        memory.deleteData(memory.getIndex(locationToDelete));
+                        System.out.println(" --- You have successfully "
+                                + "deleted data from" + locationToDelete + "!");
+                    } catch (NullPointerException n) {
+                        System.out.println("\n    ****** ERROR ******\n" 
+                                + n.getMessage() + "\n");
+                    }
+                    break;
+
+                // no case 3 needed
+
+                /**
+                 * Prints the memory wasted as well as memory available.
+                 */
+                case "4":
+                    System.out.println("\n---------------------------------"
+                            + "-----");
+                    System.out.println("Wasted Memory: " 
+                            + memory.getTotalWasted());     
+                    System.out.println("Available Memory: " 
+                            + memory.getTotalAvailable());
+                    break;
+
+                /**
+                 * Clears Memory of all Data.
+                 */
+                case "5":
+                    memory.clearMemory();
+                    System.out.println(" --- You have successfully cleared "
+                            + "the memory!");
+                    break;
+
+                //no case 6 needed
+                
+                //no exit case needed
+                    
+                /**
+                 * Prints that you have chosen a case that doesn't exist.
+                 */
+                default:
+                    System.out.println("\n     ****** ERROR ******\n"
+                            + "invalid input\n");
+                    System.out.println();
+                    break;
+            }
+            Thread.sleep(2000);
+        }
+        System.out.println("end integration test plan");
+    }
+    
     /**
      * Reads and returns an integer from standard input. This method is
      * complete with exception handling and will not exit until an integer
