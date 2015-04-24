@@ -67,6 +67,10 @@ public class BSMA {
             System.out.println("The minimum memory chunk size is "
                 + Memory.MINIMUM_CHUNK_SIZE + ".");
 
+        if(readingFromFile)
+        {
+            Thread.sleep(5000);
+        }
             do {
 
                 // Prints menu options
@@ -182,7 +186,7 @@ public class BSMA {
             }
         if(readingFromFile)
         {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         }
         }while (runningInput);
     }
