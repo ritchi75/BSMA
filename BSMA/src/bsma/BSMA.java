@@ -1,4 +1,6 @@
+package bsma;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.*;
 /*
  * Purpose: Operating Systems 
@@ -32,7 +34,7 @@ public class BSMA {
             switch (choice) {
                 case "1":  runSimulation(Reader, false);
                            break;
-                case "2":  runSimulation(new BufferedReader(new FileReader(new File("demo.txt"))), true);
+                case "2":  runSimulation(new BufferedReader(new FileReader(new File("C:/Users/g_ric_000/Desktop/Spring 2015/Operating Systems/BSMA/BSMA/src/bsma/demo.txt"))), true);
                            break;
                 default:   System.out.println("invalid input");
                            break;
