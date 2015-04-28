@@ -2,6 +2,8 @@ package bsma;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Random;
 /*
  * Purpose: Operating Systems 
  * @author Ray Heng
@@ -30,12 +32,15 @@ public class BSMA {
         do{
             System.out.println("1. run with manual input");
             System.out.println("2. run integration plan from file");
+            System.out.println("3. run with random demo");
             String choice = Reader.readLine();
             switch (choice) {
                 case "1":  runSimulation(Reader, false);
                            break;
-                case "2":  runSimulation(new BufferedReader(new FileReader(new File("C:/Users/g_ric_000/Desktop/Spring 2015/Operating Systems/BSMA/BSMA/src/bsma/demo.txt"))), true);
+                case "2":  runSimulation(new BufferedReader(new FileReader(new File("C:/Users/Joey/BSMA/BSMA/src/bsma/demo.txt"))), true);
                            break;
+                case "3":  random(Reader);
+                            break;
                 default:   System.out.println("invalid input");
                            break;
             }
@@ -200,6 +205,79 @@ public class BSMA {
      *
      * @return an integer read from standard input
      */
+     private static void random(BufferedReader reader) throws IOException, SizeException, InterruptedException{
+         int charge = 0;
+         Random n = new Random();
+         
+         Memory memory = getNewMemory(reader);
+         int check = memory.getTotalAvailable();
+        int counter = 0;
+         int times = getRuntime(reader);
+        for(int i = 0; i < times; i++){
+            boolean deleted  = false;
+            boolean isP = false;
+            if(memory.getTotalAvailable()-memory.getTotalWasted()<= check/4){
+             while(deleted == false){
+                    int inter = n.nextInt(counter);
+                    if(memory.isNull(inter)){
+                    memory.deleteData(inter);
+                 counter--;
+                 deleted = true;
+              //    System.out.println("delete11");
+                }
+                    
+                 }
+             deleted = false;
+            }else{
+            int dataSize = n.nextInt((memory.getTotalAvailable()-memory.getTotalWasted())/2);
+            //System.out.println(dataSize);
+            // System.out.println("AV"+memory.getTotalAvailable());
+             // System.out.println("wasting" + memory.getTotalWasted());
+            String dataName = Long.toHexString(Double.doubleToLongBits(Math.random()));
+
+            if(counter == 0){
+                memory.addData(new Data(dataName, dataSize));
+                counter++;
+                        }
+            else{
+                int random = n.nextInt(10);
+                if(random <5){
+                    while(isP == false){
+                        if(dataSize > 0){
+                            isP = true;
+                        }else{
+                             dataSize = n.nextInt((memory.getTotalAvailable()-memory.getTotalWasted())/2);
+                           //  System.out.println(memory.getTotalAvailable());
+                           //  System.out.println(memory.getTotalWasted());
+                           //  System.out.println(dataSize);
+                        }
+                    }
+                    isP = false;
+                    memory.addData(new Data(dataName, dataSize));
+                counter++;
+               //  System.out.println("add");
+                }else{
+                    
+                    while(deleted = false){
+                    int inter = n.nextInt(counter);
+                    if(memory.isNull(inter)){
+                    memory.deleteData(inter);
+                 counter--;
+                 deleted = true;
+              //    System.out.println("delete");
+                }
+                
+            }
+                    deleted = false;
+            
+        }
+    }
+        }
+            Thread.sleep(300);
+       //     System.out.println(charge++);
+     }
+        
+     }
     private static int readInt(BufferedReader reader) throws IOException {
         int integer = 0;
         boolean notCorrect = true;
@@ -219,6 +297,12 @@ public class BSMA {
     /**
      *
      */
+    private static int getRuntime(BufferedReader reader)throws IOException{
+        System.out.print("Please enter how many random running you would like(must be pasitive:");
+        int times = readInt(reader);
+        return times;
+     
+    }
     private static Memory getNewMemory(BufferedReader reader) throws IOException {
         System.out.print("Please enter the amount of memory you would like to\n"
                 + "allocate for the system (must be a power of 2):   ");

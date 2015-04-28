@@ -259,7 +259,14 @@ public class Memory extends Observable{
         }
         return available;
     }
-
+    public boolean isNull(int index){
+        if(leaves.get(index).isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+        
+    }
     /**
      * Wipe memory clean for fresh start without rerunning.
      */
