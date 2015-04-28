@@ -197,14 +197,15 @@ public class BSMA {
         }
         }while (runningInput);
     }
-    
     /**
-     * Reads and returns an integer from standard input. This method is
-     * complete with exception handling and will not exit until an integer
-     * has been successfully read from the standard input.
-     *
-     * @return an integer read from standard input
+     * 
+     * @param reader
+     * @throws IOException
+     * @throws SizeException
+     * @throws InterruptedException 
+     * @random demo required memory size and run times. it will auto runing add and delete to the memory size.
      */
+
      private static void random(BufferedReader reader) throws IOException, SizeException, InterruptedException{
          int charge = 0;
          Random n = new Random();
@@ -278,6 +279,13 @@ public class BSMA {
      }
         
      }
+         /**
+     * Reads and returns an integer from standard input. This method is
+     * complete with exception handling and will not exit until an integer
+     * has been successfully read from the standard input.
+     *
+     * @return an integer read from standard input
+     */
     private static int readInt(BufferedReader reader) throws IOException {
         int integer = 0;
         boolean notCorrect = true;

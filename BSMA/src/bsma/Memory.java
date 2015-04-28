@@ -259,6 +259,11 @@ public class Memory extends Observable{
         }
         return available;
     }
+    /**
+     * support method check if the data is empty or not.
+     * @param index
+     * @return 
+     */
     public boolean isNull(int index){
         if(leaves.get(index).isEmpty()){
             return false;
