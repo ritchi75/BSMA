@@ -79,7 +79,7 @@ public class Memory extends Observable{
      */
     public void addData(Data d) throws SizeException {
         if (d.getSize() > largestAvailableChunk()) {
-            throw new SizeException("not chunks large enough to fit a file "
+            throw new SizeException("no chunks large enough to fit a file "
                     + "of size " + d.getSize());
         } else {
             int chunkSize = findSmallestUsableChunkSize(d.getSize());
