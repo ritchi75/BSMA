@@ -22,7 +22,7 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
     private static final int VISUAL_MEMORY_WIDTH = 150; //how wide in pixels the memory will be 
     private static final int VISUAL_MEMORY_SCALE = 6;
     private static final int START_X = 120;
-    private static final int START_Y = 110;
+    private static final int START_Y = 85;
     
     /**
      * Creates new form BSMAGui
@@ -97,15 +97,15 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables
-    @Override
+  @Override
     public void paint(Graphics g) {
         super.paint(g);
         
         Font font;
         g.setColor(Color.BLACK);
-        font = new Font(Font.SANS_SERIF, Font.BOLD, 14);
+        font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
         g.setFont(font);
-        g.drawString("Binary Buddy Memory Management System!", 380, 80);
+        g.drawString("Binary Buddy Memory Management System!", 220, 65);
    
         //make a key explaining what different color chunks mean
         font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
@@ -142,3 +142,4 @@ public class BSMAGui extends javax.swing.JFrame implements Observer {
             repaint();
     }
 }
+
